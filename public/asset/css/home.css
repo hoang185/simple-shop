@@ -4,7 +4,6 @@
  #slider-banner {
      margin-top: 60px;
  }
-
  #categories__banner {
      display: grid;
      grid-template-columns: auto auto;
@@ -155,6 +154,14 @@
      background-repeat: no-repeat;
      background-color: rgba(241, 241, 241, 0.6);
  }
+ #new-arrivals__slider .products__slider .slider span {
+     opacity: 1;
+     -webkit-transition: .3s ease-in-out;
+     transition: .3s ease-in-out;
+ }
+ #new-arrivals__slider .products__slider .slider span:hover {
+     opacity: 0.75;
+ }
 
  /* weekly best */
  #weekly-best {
@@ -285,6 +292,14 @@
      display: flex;
      justify-content: center;
 
+ }
+ #weekly-best .weekly-list span {
+     opacity: 1;
+     -webkit-transition: .3s ease-in-out;
+     transition: .3s ease-in-out;
+ }
+ #weekly-best .weekly-list span:hover {
+     opacity: 0.75;
  }
 
  /* blog */

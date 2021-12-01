@@ -14,7 +14,7 @@ class AddFkCatIdToProductTable extends Migration
     public function up()
     {
         Schema::table('products', function (Blueprint $table) {
-            $table->foreign('cat_id')->references('id')->on('categories');
+//            $table->foreign('cat_id')->references('id')->on('categories')->onDelete('cascade');
         });
     }
 
@@ -26,7 +26,6 @@ class AddFkCatIdToProductTable extends Migration
     public function down()
     {
         Schema::table('products', function (Blueprint $table) {
-            //
         });
     }
 }

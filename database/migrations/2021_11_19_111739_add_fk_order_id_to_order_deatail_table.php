@@ -14,7 +14,7 @@ class AddFkOrderIdToOrderDeatailTable extends Migration
     public function up()
     {
         Schema::table('order_detail', function (Blueprint $table) {
-            $table->foreign('order_id')->references('id')->on('orders');
+            $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
         });
     }
 
@@ -25,8 +25,7 @@ class AddFkOrderIdToOrderDeatailTable extends Migration
      */
     public function down()
     {
-        Schema::table('order_deatail', function (Blueprint $table) {
-            //
+        Schema::table('order_detail', function (Blueprint $table) {
         });
     }
 }

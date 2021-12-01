@@ -23,7 +23,7 @@ h5 {
     top: 0;
     left: 0;
     width: 100%;
-    height: 58px;
+    height: 80px;
     z-index: 100;
     background-color: white;
 }
@@ -40,7 +40,7 @@ h5 {
 }
 
 #header .nav_logo {
-    padding: 14px;
+    padding: 0px 14px;
 }
 
 #header .nav_logo a:link {
@@ -93,7 +93,7 @@ h5 {
 
 #header .nav_right {
     grid-column: 3;
-    padding: 10px !important;
+    padding: 20px 10px 10px 10px !important;
     float: right;
 }
 

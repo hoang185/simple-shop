@@ -1,6 +1,8 @@
-#login {
+section {
     margin-top: 100px;
     margin-bottom: 250px;
+}
+#login {
 
     .login-container .login-form {
         width: 50%;
@@ -116,14 +118,19 @@
         display: none;
     }
 
-    .field input {
-        width: 100%;
-        color: #231f30;
-        border: 1px solid #707070;
-        height: 36px;
-        margin-bottom: 15px;
-        padding: 5px;
-        font-size: 14px;
+    .field {
+        input {
+            width: 100%;
+            color: #231f30;
+            border: 1px solid #707070;
+            height: 36px;
+            margin-bottom: 15px;
+            padding: 5px;
+            font-size: 14px;
+        }
+        p {
+            margin-bottom: 15px;
+        }
     }
 
     .primary {
@@ -140,4 +147,21 @@
         }
     }
 
+    .is-danger {
+        color: #dd0000;
+    }
+}
+
+#account-user {
+    h5 {
+        margin-top: 30px;
+        display: inline-block;
+    }
+    .block-title {
+        //position: relative;
+        a {
+            text-decoration: underline !important;
+            margin-left: 20px;
+        }
+    }
 }

@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
+use Illuminate\Support\Facades\Hash;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,5 +19,7 @@ use App\Http\Controllers\Auth\LoginController;
 Route::get('/', function () {
     return view('home');
 })->name('home');
-Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::get('login', [LoginController::class, 'showLoginForm'])->name('login.show');
 Route::get('login/create', [LoginController::class, 'createAccount'])->name('login.create');
+Route::post('create/account', [RegisterController::class, 'createUser'])->name('user.create');
+Route::post('login', [LoginController::class, 'login'])->name('login.auth');

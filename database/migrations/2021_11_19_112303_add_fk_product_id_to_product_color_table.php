@@ -14,7 +14,7 @@ class AddFkProductIdToProductColorTable extends Migration
     public function up()
     {
         Schema::table('product_color', function (Blueprint $table) {
-            $table->foreign('product_id')->references('id')->on('products');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
         });
     }
 
@@ -26,7 +26,6 @@ class AddFkProductIdToProductColorTable extends Migration
     public function down()
     {
         Schema::table('product_color', function (Blueprint $table) {
-            //
         });
     }
 }

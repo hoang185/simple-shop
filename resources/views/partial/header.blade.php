@@ -3,7 +3,7 @@
       <div class="row">
         <div class="nav_logo col-lg-2 col-md-2 col-sm-2">
           <div>
-            <a href=" {{ route('home') }}">Simple</a>
+            <a href=" {{ route('home') }}"><img style="height: 80px; width: 80px" src="/asset/image/logo/logo.jpg"></a>
           </div>
         </div>
         <div class="nav_left col-lg-4 col-sm-4">
@@ -20,7 +20,7 @@
             </form>
           </div>
           <div class="login">
-            <a href="{{ route('login') }}">Đăng nhập</a>
+            <a href="{{ route('login.show') }}">Đăng nhập</a>
             <a href="#">Giỏ Hàng (0)</a>
           </div>
         </div>

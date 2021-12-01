@@ -11,44 +11,59 @@
             </span>
         </div>
         <div class="row justify-content-center">
-            <fieldset class="info" data-hasrequired=" *Bắt buộc">
+
+            <form method="POST" enctype="multipart/form-data" action=" {{ route('user.create') }}" class="info">
+                @csrf
+                <div class="noti-success">
+                    @if (\Session::has('success'))
+                        <div class="alert alert-success">
+                            <p>{{ \Session::get('success') }}</p>
+                        </div>
+
+                    @endif
+                </div>
                 <div class="field name required">
                     <label for="">Họ và tên</label>
                     <div class="control">
-                        <input type="text" name="name">
-                        <div class="message-error">Đây là trường bắt buộc</div>
+                        <input  id="name-input" class="name" type="text" value="" oninput="myFunction()">
+                        <p id="name-error" class="help is-danger name-error"></p>
+                        <p class="help is-danger">{{ $errors->first('name') }}</p>
                     </div>
                 </div>
                 <div class="field phone required">
                     <label for="">Số điện thoại</label>
                     <div class="control">
                         <input type="number" name="phone">
-                        <div class="message-error">Đây là trường bắt buộc</div>
+                        <p id="name-error" class="help is-danger name-error"></p>
+                        <p class="help is-danger">{{ $errors->first('phone') }}</p>
                     </div>
                 </div>
                 <div class="field email required">
                     <label for="">Email</label>
                     <div class="control">
                         <input type="email" name="email" autocomplete="email">
-                        <div class="message-error">Đây là trường bắt buộc</div>
+                        <p id="name-error" class="help is-danger name-error"></p>
+                        <p class="help is-danger">{{ $errors->first('email') }}</p>
                     </div>
                 </div>
-                <div class="field password required">
+                <div class="field re-password required">
                     <label for="">Mật khẩu</label>
                     <div class="control">
-                        <input type="password" name="password">
-                        <div class="message-error">Đây là trường bắt buộc</div>
+                        <input id="vuhuyhoang" type="password" name="password">
+                        <p id="name-error" class="help is-danger name-error"></p>
+                        <p class="help is-danger">{{ $errors->first('password') }}</p>
                     </div>
                 </div>
                 <div class="field re-password required">
                     <label for="">Nhập lại mật khẩu</label>
                     <div class="control">
-                        <input type="password" name="password">
-                        <div class="message-error">Đây là trường bắt buộc</div>
+                        <input type="password" name="re-password">
+                        <p id="name-error" class="help is-danger name-error"></p>
+                        <p class="help is-danger">{{ $errors->first('re-password') }}</p>
                     </div>
                 </div>
                 <div class="choice newsletter">
-                    <input type="checkbox">
+                    <input type="checkbox" name="mail-check">
                     <label for="is_subscribed" class="label">
                         <span>Tôi muốn nhận bản tin của Simple qua email</span>
                     </label>
@@ -58,8 +73,36 @@
                         <span>Đăng ký</span>
                     </button>
                 </div>
-            </fieldset>
+            </form>
         </div>
     </div>
 </section>
+    <script type="text/javascript">
+        let name = document.getElementById("name-input");
+        name.addEventListener("focusin", focus);
+        name.addEventListener("focusout", blur);
+        name.addEventListener("keypress", press);
+        // name.addEventListener("keypress", press);
+        // console.log(name.value);
+
+        function press() {
+            document.getElementById('name-error').innerHTML = "";
+        }
+        function myFunction() {
+            var val = document.getElementById("name-input").value;
+        }
+        function focus() {
+            if( val != "") {
+                document.getElementById('name-error').innerHTML = "";
+            }
+        }
+        function blur() {
+            if( name.value == "") {
+                document.getElementById('name-error').innerHTML = "Day la truong bat buoc";
+            }
+            else if( name.value !== "" ){
+                document.getElementById('name-error').innerHTML = "";
+            }
+        }
+    </script>
 @endsection
