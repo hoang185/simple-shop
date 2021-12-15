@@ -1,9 +1,7 @@
 
 
  /* slider banner */
- #slider-banner {
-     margin-top: 60px;
- }
+
  #categories__banner {
      display: grid;
      grid-template-columns: auto auto;

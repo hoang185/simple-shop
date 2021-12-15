@@ -24,9 +24,9 @@
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
         <span class="sr-only">Previous</span>
       </button>
-      <button class="carousel-control-next" type="button" data-target="#carouselExampleIndicators" data-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
+      <button class="carousel-control-next" type="button" data-target="#carouselExampleIndicators"  data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true" ></span>
+        <span class="sr-only" style="color: #000!important;">Next</span>
       </button>
     </div>
   </section>

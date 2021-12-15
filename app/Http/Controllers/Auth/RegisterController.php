@@ -21,19 +21,19 @@ class RegisterController extends Controller
         $data = $request->all();
         if ( $request->has('mail-check') ) {
             User::insert([
-                'name' => $data['name'],
-                'phone' => $data['phone'],
-                'email' => $data['email'],
-                'password' => Hash::make($data['password']),
+                'name'      => $data['name'],
+                'phone'     => $data['phone'],
+                'email'     => $data['email'],
+                'password'  => Hash::make($data['password']),
                 'send_mail' => 1,
             ]);
         }
         else {
             User::insert([
-                'name' => $data['name'],
-                'phone' => $data['phone'],
-                'email' => $data['email'],
-                'password' => Hash::make($data['password']),
+                'name'      => $data['name'],
+                'phone'     => $data['phone'],
+                'email'     => $data['email'],
+                'password'  => Hash::make($data['password']),
                 'send_mail' => 0,
             ]);
         }

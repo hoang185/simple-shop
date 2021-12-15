@@ -89,7 +89,7 @@ return [
     'min' => [
         'numeric' => '*Mật khẩu phải tối thiểu 6 ký tự.',
         'file' => 'The :attribute must be at least :min kilobytes.',
-        'string' => 'The :attribute must be at least :min characters.',
+        'string' => '*Mật khẩu phải tối thiểu 6 ký tự.',
         'array' => 'The :attribute must have at least :min items.',
     ],
     'multiple_of' => 'The :attribute must be a multiple of :value.',

@@ -17,15 +17,13 @@ class LoginController extends Controller
     }
     protected function login(Request $request)
     {
-//        $request->validate([
-//            'user-name'    => 'required|email',
-////            'phone'    => 'required|numeric',
-//            'password-login' => 'required|min:6',
-//        ]);
-//        $credentials = $request->only('email', 'password');
-        $username = $request->input('user-name');
-        $password = $request->input('password-login');
-        if( Auth::attempt(['email' => $username, 'password' => $password]) || Auth::attempt(['phone' => $username, 'password' => $password]) ) {
+        $request->validate([
+            'email'    => 'required|email',
+            'password' => 'required|min:6',
+        ]);
+        $username = $request->input('email');
+        $password = $request->input('password');
+        if( Auth::attempt(['email' => $username, 'password' => $password]) || Auth::attempt(['phone' => $username, 'password' => $password])) {
             return redirect()->route('login.show')->with('success', 'Bạn đã đăng nhập thành công!');
         }
         else{

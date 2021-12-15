@@ -30,7 +30,7 @@
                                     @csrf
                                     <div class="field email required">
                                         <div class="control">
-                                            <input type="text" name="user-name" id="email" class="input-text"
+                                            <input type="text" name="email" id="email" class="input-text"
                                                    title="Email or phone number" placeholder="ĐỊA CHỈ EMAIL HOẶC SỐ ĐIỆN THOẠI" aria-required="true">
                                             <p class="help is-danger">{{ $errors->first('phone') }}</p>
                                             <p class="help is-danger">{{ $errors->first('email') }}</p>
@@ -38,7 +38,7 @@
                                     </div>
                                     <div class="field password required">
                                         <div class="form-group">
-                                            <input type="password" id="inputPassword3" name="password-login"
+                                            <input type="password" id="inputPassword3" name="password"
                                                    title="text" data-validate="{ required:true }" placeholder="MẬT KHẨU" aria-required="true" data-toggle="password" >
                                             <p class="help is-danger">{{ $errors->first('password') }}</p>
                                         </div>
@@ -86,6 +86,5 @@
     </div>
 </section>
     <script type="text/javascript">
-        // $("#password").password('toggle')
     </script>
 @endsection
