@@ -1,5 +1,5 @@
 section {
-    margin-top: 100px;
+    //margin-top: 100px;
     margin-bottom: 250px;
 }
 #login {
@@ -15,6 +15,9 @@ section {
         }
 
         .block-content {
+            .primary {
+                margin-bottom: 20px  ;
+            }
             .primary .btn-primary {
                 background-color: #231f20;
                 border: #231f20;
@@ -49,7 +52,7 @@ section {
     }
 
     .login-container .social-login {
-        margin-left: 100px;
+        margin-left: 30px;
 
         .title {
             font-size: 24px;
@@ -102,6 +105,62 @@ section {
         }
     }
 }
+//responsive tablet
+@media (min-width: 575px) and (max-width: 1000px)  {
+    #login {
+        .social-login {
+            margin-top: 30px;
+            min-width: 100%;
+            margin-left: 0px !important;
+            .title {
+                display: none;
+            }
+        }
+        .login-container .login-form {
+            display: grid;
+            //justify-content: center;
+            text-align: center;
+            min-width: 100%;
+            border-right: none;
+        }
+        .secondary {
+            margin-top: 20px;
+        }
+    }
+}
+//end responsive tablet
+
+//responsive phone
+@media (max-width: 575px) {
+    .login-container .login-form {
+        min-width: 100%;
+        margin-left: 40px;
+    }
+    .social-login {
+        margin-top: 30px;
+        min-width: 90%;
+        //margin-left: 0px !important;
+        .title {
+            display: none;
+        }
+        .modal-facebook, .modal-google {
+            position: relative;
+            margin-left: 10px !important ;
+            &::before {
+                content: "" !important;
+                position: absolute !important;
+                left: 25px !important;
+            }
+        }
+        .modal-socialogin {
+            padding: 9px 0 9px 65px !important;
+            font-size: 14px;
+        }
+
+    }
+}
+//end responsive phone
+
 
 #create-account {
     // margin-left: 500px;
@@ -136,6 +195,7 @@ section {
     .primary {
         display: flex;
         justify-content: center;
+
 
         .btn-primary {
             box-shadow: none;

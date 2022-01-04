@@ -110,6 +110,7 @@
      top: -290px;
      left: 25px;
      font-size: 50px !important;
+     color: #cfcfcc !important;
  }
 
  .owl-next {
@@ -117,6 +118,7 @@
      top: -290px;
      font-size: 50px !important;
      right: 25px;
+     color: #cfcfcc !important;
  }
 
  .owl-dots {

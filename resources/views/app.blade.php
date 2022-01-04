@@ -3,9 +3,11 @@
 
 <head>
   <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>@yield('page.title')</title>
   <!-- <link rel="stylesheet" href="style.css"> -->
 
+    <link rel="icon" href="{!! asset('/asset/image/logo/logo.jpg') !!}"/>
   <link rel="stylesheet" href="/asset/css/home.css">
   <link rel="stylesheet" href="/asset/css/partial.css">
   <link rel="stylesheet" href="/css/app.css">
@@ -15,7 +17,9 @@
   <link rel="stylesheet" href="/asset/plugin/fontawesome/css/font-awesome.min.css">
   <link rel="stylesheet" href="/asset/plugin/owlcarousel/dist/assets/owl.carousel.min.css">
   <link rel="stylesheet" href="/asset/plugin/owlcarousel/dist/assets/owl.theme.default.min.css">
-  <script src="/asset/plugin/jquery-3.5.1.min.js"></script>
+    <link rel="stylesheet" href="asset/plugin/themify/themify-icons.css">
+
+    <script src="/asset/plugin/jquery-3.5.1.min.js"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
@@ -31,6 +35,8 @@
 
   <!-- footer-->
   @include('partial.footer')
+
+  @yield('scripts')
 
   {{-- <script src="asset/plugin/owlcarousel/dist/owl.carousel.min.js"></script> --}}
   {{-- <script src="asset/js/home.js"></script> --}}

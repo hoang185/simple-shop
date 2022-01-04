@@ -4,8 +4,8 @@ var item = document.getElementsByClassName("left-item");
 for (var i = 0; i < item.length; i++) {
   item[i].addEventListener("click", function() {
   var current = document.getElementsByClassName("active-item");
-  
-  if (current.length > 0) { 
+
+  if (current.length > 0) {
     current[0].className = current[0].className.replace(" active-item", "");
   }
   this.className += " active-item";
@@ -19,7 +19,7 @@ for (let i = 0; i < btns.length; i++) {
   var current = document.getElementsByClassName("active-toggle");
   var slide = document.getElementsByClassName("slider");
   var active = document.getElementsByClassName("active-slider");
-  if (current.length > 0) { 
+  if (current.length > 0) {
     current[0].className = current[0].className.replace(" active-toggle", "");
   }
   this.className += " active-toggle";
@@ -31,7 +31,7 @@ for (let i = 0; i < btns.length; i++) {
   active[0].className = active[0].className.replace(" active-slider", "");
   slide[1].className += " active-slider";
   }
-  }); 
+  });
 }
 
 // new product -slide
@@ -42,17 +42,16 @@ $('.owl-carousel').owlCarousel({
   responsiveClass:true,
   responsive:{
       0:{
-          items:1,
-          nav:true
+          items:2,
+          nav:true,
       },
       600:{
           items:3,
-          nav:false
+          nav:true,
       },
       1000:{
           items:4,
           nav:true,
-          loop:false
       }
   }
 })
@@ -64,7 +63,7 @@ for (var i = 0; i < btns.length; i++) {
     var current_weekly = document.getElementsByClassName("active-weekly");
     var slide_weekly = document.getElementsByClassName("weekly-list");
     var active_weekly = document.getElementsByClassName("active-list");
-  if (current_weekly .length > 0) { 
+  if (current_weekly .length > 0) {
     current_weekly [0].className = current_weekly [0].className.replace(" active-weekly", "");
   }
   this.className += " active-weekly";
@@ -76,5 +75,5 @@ for (var i = 0; i < btns.length; i++) {
     active_weekly[0].className =active_weekly[0].className.replace(" active-list", "");
   slide_weekly[1].className += " active-list";
   }
-  }); 
+  });
 }
