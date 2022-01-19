@@ -79,13 +79,13 @@
               </div>
             </div>
           </div>
-         
+
         </div>
       </div>
       <div class="slider active-slider">
         <div class=" for-her owl-carousel">
           <div>
-            <div><a href="#"><span style="background-image:url(asset/image/home/new-prod-her/1.jpeg)" alt=""></span></a></div>
+            <div><a href="#"><span style="background-image:url(https://res.cloudinary.com/simpleshop/image/upload/v1641221587/simple-shop/1641049671757_giasdg.jpg)" alt=""></span></a></div>
             <div class="detail">
               <h6 class="name">Polo Tee</h6>
               <div class="price">
@@ -157,7 +157,7 @@
             </div>
           </div>
 
-          
+
         </div>
       </div>
     </div>

@@ -29,6 +29,9 @@
         }
     },
     "autoload-dev": {
+        "files": [
+            "app/Helpers/const.php"
+        ],
         "psr-4": {
             "Tests\\": "tests/"
         }

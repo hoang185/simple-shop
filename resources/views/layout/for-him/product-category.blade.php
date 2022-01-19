@@ -1,11 +1,11 @@
 @extends('app')
 
-@section('page.title', 'Simple - For Him')
+@section('page.title', $for_him.': '.$page_title->category)
 
 @section('content')
     <section id="categories">
         <div class="categories-title">
-            <h1 class="info-title">{{ $for_him }}</h1>
+            <h1 class="info-title">{{ $page_title->category }}</h1>
             <p>Tất cả những sản phẩm Mới nhất nằm trong BST được mở bán Hàng Tuần sẽ được cập nhật liên tục tại đây.
                 Chắc chắn bạn sẽ tìm thấy những sản phẩm Đẹp Nhất - Vừa Vặn Nhất - Phù Hợp nhất với phong cách của mình.
             </p>
@@ -22,17 +22,17 @@
                 <div class="form-item-select">
                     <select id="sorter" data-role="sorter" class="sorter-option">
                         <option value="0" disabled hidden selected>Sắp xếp theo</option>
-                        <option value="{{ route('for-him.index', ['sorter' => 1]) }}">Thứ tự chữ cái A-Z</option>
-                        <option value="{{ route('for-him.index', ['sorter' => 2]) }}">Thứ tự chữ cái Z-A</option>
-                        <option value="{{ route('for-him.index', ['sorter' => 3]) }}">Giá tăng dần</option>
-                        <option value="{{ route('for-him.index', ['sorter' => 4]) }}">Giá giảm dần</option>
-                        <option value="{{ route('for-him.index', ['sorter' => 5]) }}">Sản phẩm mới nhất</option>
+                        <option value="{{ route('for-him.category', ['cat' => $cat,'sorter' => 1]) }}">Thứ tự chữ cái A-Z</option>
+                        <option value="{{ route('for-him.category', ['cat' => $cat,'sorter' => 2]) }}">Thứ tự chữ cái Z-A</option>
+                        <option value="{{ route('for-him.category', ['cat' => $cat,'sorter' => 3]) }}">Giá tăng dần</option>
+                        <option value="{{ route('for-him.category', ['cat' => $cat,'sorter' => 4]) }}">Giá giảm dần</option>
+                        <option value="{{ route('for-him.category', ['cat' => $cat,'sorter' => 5]) }}">Sản phẩm mới nhất</option>
                     </select>
                 </div>
             </div>
             <div class="filter-list" id="trigger">
                 <div>
-                   <span class="list-trigger" style="z-index: 99;text-transform: capitalize; cursor: pointer;">{{ $for_him }} <i class="ti-angle-down" style="font-size: 12px"></i></span>
+                    <span class="list-trigger" style="z-index: 99;text-transform: capitalize; cursor: pointer;">{{ $for_him }} <i class="ti-angle-down" style="font-size: 12px"></i></span>
                 </div>
             </div>
         </div>
@@ -92,17 +92,6 @@
                 page = searchParams.get('page');
             }
             console.log(page);
-            // var length = $('.for-him a').length;
-            // for (let i = 1; i <= length; i++) {
-            //     if ($('ul li:nth-child(' + i + ')').length > 0) {
-            //
-            //         $('ul li:nth-child(' + i + ')').click(function () {
-            //             $('.active').removeClass('active');
-            //             $('ul li:nth-child(' + i + ')').addClass('active');
-            //             category = $('.for-him .active a').text();
-            //         });
-            //     }
-            // }
 
             if (window.matchMedia('screen and (max-width: 768px)').matches) {
                 $('.list-trigger').click(function (e) {
@@ -127,38 +116,7 @@
                 console.log(sorter)
                 window.location.href = $('#sorter').val();
             });
-            // $('.for-him').click(function() {
-            //     console.log(category, "category")  ;
-            //     $.ajax({
-            {{--        url: "{{ route('for-him.list') }}",--}}
-            //         method: "post",
-            //         data: {
-            //             '_token': csrf,
-            //             'category': category,
-            //             'page' : page,
-            //         },
-            //         success: function (data) {
-            //             if (data.success) {
-            //                 $('.product-list li').remove();
-            //                 $('.product-list').append(data.html);
-            //             }
-            //         },
-            //     });
-            // });
-            // $.ajax({
-            {{--    url:"{{ route('for-him.list') }}",--}}
-            //     method: "post",
-            //     data: {
-            //         '_token' : csrf,
-            //         'page' : page,
-            //     },
-            //     success: function(data) {
-            //         if(data.success) {
-            //             console.log('sort', sorter)
-            //             $('.product-list').append(data.html);
-            //         }
-            //     },
-            // });
+
         });
 
     </script>

@@ -14,10 +14,10 @@
             </div>
           <div class="nav_left_item">
             <div class="left-item">
-                <a href= {{ route('for-him.index') }}>Nam</a>
+                <a href= "{{ route('for-him.index') }}">Nam</a>
 
             </div>
-            <div class="left-item"><a href="#">Nữ</a></div>
+            <div class="left-item"><a href="{{ route('for-her.index') }}">Nữ</a></div>
             <div class="left-item"><a href="#">new arrivals </a></div>
             <div class="left-item"><a href="#" style="color: #be2c15; font-family: 'Condensed-Light'">sale off </a></div>
           </div>

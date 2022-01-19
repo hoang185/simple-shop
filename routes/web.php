@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ForHimController;
+use App\Http\Controllers\ForHerController;
 use Illuminate\Support\Facades\Hash;
 
 /*
@@ -24,4 +25,7 @@ Route::get('login', [LoginController::class, 'showLoginForm'])->name('login.show
 Route::get('login/create', [LoginController::class, 'createAccount'])->name('login.create');
 Route::post('create/account', [RegisterController::class, 'createUser'])->name('user.create');
 Route::post('login', [LoginController::class, 'login'])->name('login.auth');
-Route::get('for-him', [ForHimController::class, 'index'])->name('for-him.index');
+Route::get('for-him/{sorter?}', [ForHimController::class, 'index'])->name('for-him.index');
+Route::get('him/{cat}/{sorter?}', [ForHimController::class, 'filterCategory'])->name('for-him.category');
+Route::get('for-her/{sorter?}', [ForHerController::class, 'index'])->name('for-her.index');
+Route::get('her/{cat}/{sorter?}', [ForHerController::class, 'filterCategory'])->name('for-her.category');
