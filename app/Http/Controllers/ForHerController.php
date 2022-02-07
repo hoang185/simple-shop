@@ -28,14 +28,16 @@ class ForHerController extends Controller
             $products = $products->orderBy('updated_at', 'desc');
         }
         $products = $products->paginate(8);
-        $categories = Category::where('name', 'LIKE', 'nu')->get();
-        $for_him = 'for her';
+        $categories = Category::where('cat_name', 'LIKE', 'nu')->get();
+        $slug = FOR_HER;
+        $page_title = "Simple - For Her";
+        $id = 0;
 //        dd($products);
-        return view('layout.for-him.index', compact( 'products','categories', 'for_him'));
+        return view('layout.product.index', compact( 'products','categories', 'slug', 'page_title', 'id'));
     }
     protected function filterCategory(Request $request)
     {
-        $products = Product::with('category');
+        $products = Product::with('category')->where('type', 0);
         $sorter = $request->sorter ?? "";
         $cat = $request->cat;
         if(!empty($sorter) && $sorter == CHAR_A_Z) {
@@ -56,12 +58,14 @@ class ForHerController extends Controller
         $products = $products->whereHas('category', function ($q) use ($cat) {
             $q->where('categoryvi', 'LIKE', $cat);
         });
-        $for_him = 'for her';
-        $categories = Category::where('name', 'LIKE', 'nu')->get();
+        $title = FOR_HER;
+        $categories = Category::where('cat_name', 'LIKE', '%nu%')->get();
         $products = $products->paginate(8);
-        $page_title = Category::where('name', 'LIKE', 'nu')->where('categoryvi', 'LIKE', $cat)->first();
+        $page_title = Category::where('cat_name', 'LIKE', '%nu%')->where('categoryvi', 'LIKE', $cat)->first();
+        $slug = $page_title->category;
+        $id = 0;
 //        dd($products, $page_title);
-        return view('layout.for-him.product-category', compact( 'products', 'cat','for_him','categories', 'page_title'));
+        return view('layout.product.product-category', compact( 'products', 'cat','slug','categories', 'page_title', 'title', 'id'));
 
     }
 }

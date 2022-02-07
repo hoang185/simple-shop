@@ -27,8 +27,10 @@
           <a href="#"><i class="fa fa-instagram fa-2x" style="color: #636363; margin-left:30px; " aria-hidden="true"></i></a>
           <a href="#"><i class="fa fa-youtube-square fa-2x" style="color: #636363;  margin-left:30px;" aria-hidden="true"></i></a>
         </li>
-        
+
       </ul>
       <p class="copy">Copyright ⓒ by Leanow Joint Stock Company </p>
     </div>
-  </footer>
+    <script src="{{ asset('asset/plugin/owlcarousel/dist/owl.carousel.min.js')}}"></script>
+    <script src="{{ asset('js/app.js') }}"></script>
+</footer>

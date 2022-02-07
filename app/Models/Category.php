@@ -9,8 +9,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Category extends Model
 {
     use HasFactory;
+    protected $table = "categories";
     protected $fillable = [
-        'name', 'category', 'categoryvi',
+        'cat_name', 'category', 'categoryvi',
     ];
 
     public function product() {

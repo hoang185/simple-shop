@@ -18,8 +18,8 @@
 
             </div>
             <div class="left-item"><a href="{{ route('for-her.index') }}">Nữ</a></div>
-            <div class="left-item"><a href="#">new arrivals </a></div>
-            <div class="left-item"><a href="#" style="color: #be2c15; font-family: 'Condensed-Light'">sale off </a></div>
+            <div class="left-item"><a href="{{ route('new-arrival.index') }}">new arrivals </a></div>
+            <div class="left-item"><a href="{{ route('sale-off.index') }}" style="color: #be2c15; font-family: 'Condensed-Light'">sale off </a></div>
           </div>
         </div>
         <div class="nav_right col-lg-6 col-sm-6" style="font-size:25px;">
@@ -28,29 +28,33 @@
                   <i id="icon_search" class="ti-search" style="font-size: 22px; padding: 0 10px"></i>
                   <a href="#"><i class="ti-shopping-cart" style="font-size: 28px;"></i></a>
               </div>
-            <form class="" method="POST" action="index.php?page_layout=search">
+            <form class="" method="POST" action="{{ route('product.search') }}">
+                @csrf
               <input name="keyword" class="form-control mt-3" type="search" placeholder="TÌM KIẾM" aria-label="Search" style="font-family: 'Condensed-Light'; color: #231f20" required>
             </form>
           </div>
+            @php
+                $user = Auth::user();
+            @endphp
           <div class="login">
-            <a href="{{ route('login.show') }}">Đăng nhập</a>
-            <a href="#">Giỏ Hàng (0)</a>
+            <a href="{{ route('login.show') }}"> {{ !empty($user) ? $user->name :'Đăng nhập' }}</a>
+            <a href="{{ route('cart.checkout') }}">Giỏ Hàng (0)</a>
           </div>
         </div>
       </div>
         <div class="side_nav" id="side_nav">
             <ul class="nav_mobile">
-                <li class="left-item"><a href="#">nam</a></li>
-                <li class="left-item"><a href="#">Nữ</a></li>
-                <li class="left-item"><a href="#">new arrivals</a></li>
-                <li class="left-item"><a href="#" style="color: #be2c15; font-family: 'Condensed-Light'">sale off</a></li>
+                <li class="left-item"><a href="{{ route('for-him.index') }}">nam</a></li>
+                <li class="left-item"><a href="{{ route('for-her.index') }}">Nữ</a></li>
+                <li class="left-item"><a href="{{ route('new-arrival.index') }}">new arrivals</a></li>
+                <li class="left-item"><a href="{{ route('sale-off.index') }}" style="color: #be2c15; font-family: 'Condensed-Light'">sale off</a></li>
             </ul>
             <button class="close_button" id="close_button">
                 <i class="ti-close" style="font-size: 25px"></i>
             </button>
             <div class="bottom-menu">
                 <a href="{{ route('login.show') }}">Đăng nhập</a>
-                <a href="#" style="margin-left: calc(100% - 188px);">giỏ hàng</a>
+                <a href="{{ route('cart.checkout') }}" style="margin-left: 70px;">giỏ hàng</a>
             </div>
         </div>
         <div id="search_nav">
@@ -77,7 +81,6 @@
     });
     close.addEventListener('click', function () {
         side_nav.style.left = "-100%"
-
     });
     // search input
     let close_search = document.getElementById('close_search');

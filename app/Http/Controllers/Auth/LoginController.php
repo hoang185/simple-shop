@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -33,5 +34,15 @@ class LoginController extends Controller
 
     public function createAccount() {
         return view('auth.create_account');
+    }
+
+    public function updateAccount(Request $request, $id) {
+        $validated = $request->validate([
+            'name'     => 'required',
+            'email'    => 'required|email',
+            'phone'    => 'required',
+        ]);
+        User::find($id)->update($validated);
+        return redirect()->route('login.show')->with('success', 'Bạn đã cập nhật thông tin thành công!');
     }
 }
