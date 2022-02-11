@@ -48,6 +48,12 @@
                                                 <p class="help is-danger">{{ $errors->first('password') }}</p>
                                             </div>
                                         </div>
+                                        <div class="field remember-me option">
+                                            <input type="checkbox" name="remember-me" style="height:15px; width:15px;">
+                                            <label for="is_subscribed" class="label" style="margin-right: 30px;">
+                                                <span>Remember Me</span>
+                                            </label>
+                                        </div>
                                         <div class="primary">
                                             <button type="submit" class="action btn btn-primary" name="send" id="send2">
                                                 <span>Đăng nhập</span>

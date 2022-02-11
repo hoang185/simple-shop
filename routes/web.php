@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ForHimController;
 use App\Http\Controllers\ForHerController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CartController;
 use Illuminate\Support\Facades\Hash;
 
 /*
@@ -49,6 +50,8 @@ Route::get('p/{product}', [AdminController::class, 'productDetail'])->name('prod
 Route::get('checkout/cart', [AdminController::class, 'checkoutCart'])->name('cart.checkout');
 Route::get('checkout/pay', [AdminController::class, 'checkoutPay'])->name('pay.checkout');
 Route::post('search', [AdminController::class, 'search'])->name('product.search');
+Route::post('cart/add', [CartController::class, 'addCart'])->name('cart.add');
+Route::post('cart/delete', [CartController::class, 'deleteCart'])->name('cart.delete');
 //Route::get('convert', [AdminController::class, 'convertLower']);
 
 

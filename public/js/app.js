@@ -2207,6 +2207,7 @@ function plusQty(qtyInput) {
   if (qty < 100) {
     qty++;
     $('#' + qtyInput).val(qty);
+    $("#".concat(qtyInput)).data("value", qty);
   } else {
     $('#' + qtyInput).val(100);
   }
@@ -2218,6 +2219,7 @@ function minusQty(qtyInput) {
   if (qty > 1) {
     qty--;
     $('#' + qtyInput).val(qty);
+    $("#".concat(qtyInput)).data("value", qty);
   } else {
     $('#' + qtyInput).val(1);
   }

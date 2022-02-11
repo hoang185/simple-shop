@@ -38,7 +38,8 @@
             @endphp
           <div class="login">
             <a href="{{ route('login.show') }}"> {{ !empty($user) ? $user->name :'Đăng nhập' }}</a>
-            <a href="{{ route('cart.checkout') }}">Giỏ Hàng (0)</a>
+              @php $count = !empty(\Cart::content()->count()) ? \Cart::content()->count() : 0 @endphp
+            <a href="{{ route('cart.checkout') }}">Giỏ Hàng (<span id="cart_qty">{{ $count }}</span>)</a>
           </div>
         </div>
       </div>
@@ -54,7 +55,7 @@
             </button>
             <div class="bottom-menu">
                 <a href="{{ route('login.show') }}">Đăng nhập</a>
-                <a href="{{ route('cart.checkout') }}" style="margin-left: 70px;">giỏ hàng</a>
+                <a href="{{ route('cart.checkout') }}" style="margin-left: 70px;">giỏ hàng (<span id="cart_qty">{{ $count }}</span>)</a>
             </div>
         </div>
         <div id="search_nav">

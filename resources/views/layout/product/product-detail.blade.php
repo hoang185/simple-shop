@@ -3,7 +3,8 @@
 @section('page.title', 'name-item')
 
 @section('content')
-<section id="product-detail">
+    @include('sweetalert::alert')
+    <section id="product-detail">
    <div class="container-fluid">
        <div class="row">
            <div class="col-lg-6 col-sm-6 product-gallery">
@@ -23,8 +24,12 @@
                            <h1 class="product-info-name">{{ $product->name }}</h1>
                        </div>
                        <div class="product-info-price">
-                           <p class="current">{{ number_format($product->price,0,',','.') }}&nbsp<span class="currency-symbol">đ</span></p>
-                           <p class="discount">{{ number_format($product->sale_price,0,',','.') }}&nbsp<span class="currency-symbol">đ</span></p>
+                           @if($product->product_sale == 1)
+                               <p class="current">{{ number_format($product->price,0,',','.') }}&nbsp<span class="currency-symbol">đ</span></p>
+                               <p class="discount">{{ number_format($product->sale_price,0,',','.') }}&nbsp<span class="currency-symbol">đ</span></p>
+                           @else
+                               <p>{{ number_format($product->price,0,',','.') }}&nbsp<span class="currency-symbol">đ</span></p>
+                           @endif
                        </div>
                        <div class="product-add-form">
                            <div class="product-options-wrapper">
@@ -74,7 +79,7 @@
                                        <div class="field qty">
                                            <div class="control">
                                                <span class="edit-qty minus" onclick="minusQty('qty')">-</span>
-                                               <input class="input-text qty" type="number" name="qty" id="qty" value="1">
+                                               <input class="input-text qty" type="number" name="qty" id="qty" value="1" data-value="1">
                                                <span class="edit-qty plus" onclick="plusQty('qty')">+</span>
                                            </div>
                                        </div>
@@ -129,129 +134,53 @@
             <div class="block-content">
                 <div class="cart-item minicart-items-wrapper">
                     <ul id="mini-cart" class="minicart-item" role="tablist">
-                        <li class="item product" role="tab">
-                            <div class="product">
-                                <div class="product-item-photo">
-                                    <a href="#">
+                        @if(count(Cart::content()) > 0)
+                            @php $product_cart = Cart::content() @endphp
+                            @foreach( $product_cart as $item)
+                                <li class="item product" data-value="{{ $item->rowId  }}" role="tab">
+                                    <div class="product">
+                                        <div class="product-item-photo">
+                                            <a href="#">
                                         <span>
-                                            <span><img src="https://res.cloudinary.com/simpleshop/image/upload/v1643122910/simple-shop/nam/ARTHUR%20JACKET/1641047077794_bgxxqb.jpg"></span>
+                                            <span><img src="{{ $item->options['image'] }}"></span>
                                         </span>
-                                    </a>
-                                </div>
-                                <div class="product-item-detail">
-                                    <div class="secondary">
-                                        <button class="close_button" id="close_button">
-                                            <i class="ti-close" style="font-size: 15px"></i>
-                                        </button>
-                                    </div>
-                                    <strong class="product-item-name">
-                                        <a href="#">Arthur Jacket</a>
-                                    </strong>
-                                    <div class="product-item-option">
-                                        <span>XS / Xanh Rêu</span>
-                                    </div>
-                                    <div class="product-item-price">
-                                        <span>1.050.000&nbsp;đ</span>
-                                    </div>
-                                    <div class="box-tocart">
-                                        <div class="fieldset">
-                                            <div class="field qty">
-                                                <div class="control">
-                                                    <span class="edit-qty minus" onclick="minusQty('qty-1')">-</span>
-                                                    <input class="input-text qty" type="number" name="qty" id="qty-1" value="1">
-                                                    <span class="edit-qty plus" onclick="plusQty('qty-1')">+</span>
-                                                </div>
-                                                <button class="update-cart-item">
-                                                    <span>Cập nhật</span>
+                                            </a>
+                                        </div>
+                                        <div class="product-item-detail">
+                                            <div class="secondary">
+                                                <button class="close_button" id="close_button">
+                                                    <i class="ti-close" style="font-size: 15px"></i>
                                                 </button>
+                                            </div>
+                                            <strong class="product-item-name">
+                                                <a href="#">{{ $item->name }}</a>
+                                            </strong>
+                                            <div class="product-item-option">
+                                                <span>{{ $item->options['size'] }} / {{ $item->options['color'] }}</span>
+                                            </div>
+                                            <div class="product-item-price">
+                                                <span>{{ $item->price }}&nbsp;đ</span>
+                                            </div>
+                                            <div class="box-tocart">
+                                                <div class="fieldset">
+                                                    <div class="field qty">
+                                                        <div class="control">
+                                                            <span class="edit-qty minus" onclick="minusQty('qty-1')">-</span>
+                                                            <input class="input-text qty" type="number" name="qty" id="qty-1" value="1">
+                                                            <span class="edit-qty plus" onclick="plusQty('qty-1')">+</span>
+                                                        </div>
+                                                        <button class="update-cart-item">
+                                                            <span>Cập nhật</span>
+                                                        </button>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="item product" role="tab">
-                            <div class="product">
-                                <div class="product-item-photo">
-                                    <a href="#">
-                                        <span>
-                                            <span><img src="https://res.cloudinary.com/simpleshop/image/upload/v1643122910/simple-shop/nam/ARTHUR%20JACKET/1641047077794_bgxxqb.jpg"></span>
-                                        </span>
-                                    </a>
-                                </div>
-                                <div class="product-item-detail">
-                                    <div class="secondary">
-                                        <button class="close_button" id="close_button">
-                                            <i class="ti-close" style="font-size: 15px"></i>
-                                        </button>
-                                    </div>
-                                    <strong class="product-item-name">
-                                        <a href="#">Arthur Jacket</a>
-                                    </strong>
-                                    <div class="product-item-option">
-                                        <span>XS / Xanh Rêu</span>
-                                    </div>
-                                    <div class="product-item-price">
-                                        <span>1.050.000&nbsp;đ</span>
-                                    </div>
-                                    <div class="box-tocart">
-                                        <div class="fieldset">
-                                            <div class="field qty">
-                                                <div class="control">
-                                                    <span class="edit-qty minus" onclick="minusQty('qty-{{7}}')">-</span>
-                                                    <input class="input-text qty" type="number" name="qty" id="qty-{{7}}" value="1">
-                                                    <span class="edit-qty plus" onclick="plusQty('qty-{{7}}')">+</span>
-                                                </div>
-                                                <button class="update-cart-item">
-                                                    <span>Cập nhật</span>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="item product" role="tab">
-                            <div class="product">
-                                <div class="product-item-photo">
-                                    <a href="#">
-                                        <span>
-                                            <span><img src="https://res.cloudinary.com/simpleshop/image/upload/v1643122910/simple-shop/nam/ARTHUR%20JACKET/1641047077794_bgxxqb.jpg"></span>
-                                        </span>
-                                    </a>
-                                </div>
-                                <div class="product-item-detail">
-                                    <div class="secondary">
-                                        <button class="close_button" id="close_button">
-                                            <i class="ti-close" style="font-size: 15px"></i>
-                                        </button>
-                                    </div>
-                                    <strong class="product-item-name">
-                                        <a href="#">Arthur Jacket</a>
-                                    </strong>
-                                    <div class="product-item-option">
-                                        <span>XS / Xanh Rêu</span>
-                                    </div>
-                                    <div class="product-item-price">
-                                        <span>1.050.000&nbsp;đ</span>
-                                    </div>
-                                    <div class="box-tocart">
-                                        <div class="fieldset">
-                                            <div class="field qty">
-                                                <div class="control">
-                                                    <span class="edit-qty minus" onclick="minusQty('qty-3')">-</span>
-                                                    <input class="input-text qty" type="number" name="qty" id="qty-3" value="1">
-                                                    <span class="edit-qty plus" onclick="plusQty('qty-3')">+</span>
-                                                </div>
-                                                <button class="update-cart-item">
-                                                    <span>Cập nhật</span>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
+                                </li>
+                                @endforeach
+                        @endif
+
                     </ul>
                 </div>
             </div>
@@ -273,40 +202,52 @@
 </section>
     <script type="text/javascript">
         function plusQty(qtyInput) {
-            let qty = parseInt($('#'+qtyInput).val());
+            var qty = parseInt($('#'+qtyInput).val());
             if( qty < 100) {
                 qty++;
                 $('#'+qtyInput).val(qty);
+                $('#'+qtyInput).attr('data-value',qty);
             }
             else {
                 $('#'+qtyInput).val(100);
             }
         }
         function minusQty(qtyInput) {
-            let qty = parseInt($('#'+qtyInput).val());
+            var qty = parseInt($('#'+qtyInput).val());
             if( qty > 1) {
                 qty--;
                 $('#'+qtyInput).val(qty);
+                $('#'+qtyInput).attr('data-value',qty);
             }
             else {
                 $('#'+qtyInput).val(1);
             }
         }
         $(document).ready(function () {
+            var product_size = $('.action-size').text();
+            console.log(product_size)
+
             $('.button-size').click(function () {
-                $('.action-size').removeClass('action-size');
-                $(this).addClass('action-size');
+                    $('.action-size').removeClass('action-size');
+                    $(this).addClass('action-size');
+                    product_size = $('.action-size').text();
             });
+
             $('.product-color li:eq(0) button').addClass('action-color');
             let id = $('.action-color').val();
             $('.image-'+id).addClass('action-image');
+            var product_color = $('.action-color').attr('data-title');
+            var product_color_id = $('.action-color').val();
+
+            console.log(product_color, 'color')
             $('.button-color').click(function () {
-                $('.action-color').removeClass('action-color');
-                $(this).addClass('action-color');
-                console.log('action-colr', $('.action-color').val())
+                    $('.action-color').removeClass('action-color');
+                    $(this).addClass('action-color');
+                    product_color = $('.action-color').attr('data-title');
+                    product_color_id = $('.action-color').val();
                 $('.product-image').removeClass('action-image');
-                let id = $('.action-color').val();
-                $('.image-'+id).addClass('action-image');
+                    let id = $('.action-color').val();
+                    $('.image-' + id).addClass('action-image');
             });
 
             $('.size-guide').click( function(){
@@ -318,6 +259,7 @@
             var array_size = size.split(',');
             var leng_size = $('.button-size').length;
             // console.log(array_size, 'array size');
+
             for( let i = 0; i < leng_size; i++) {
                 let val_size = $('.size li:eq('+i+') .button-size').val();
                 if( array_size.indexOf(val_size) < 0) {
@@ -327,21 +269,77 @@
                 }
             }
 
-            $('#addtocart-button').click(function () {
-                $('.cart-nav').css('right', '0%');
-            });
+
             $('.cart-close').click(function () {
                 $('.cart-nav').css('right', '-100%');
             });
 
-            var leng_item_cart = $('.item').length;
-            console.log(leng_item_cart, 'leng-item-cart');
-            for( let i = 0; i < leng_item_cart; i++) {
-                $('.item:eq('+i+') .ti-close').click(function(e) {
-                    e.preventDefault();
-                    $('.item:eq('+i+')').css('display', 'none');
-                });
-            }
+
+
+
+            var product_id = {{ $product->id }};
+
+            $('#addtocart-button').click( function(e){
+                e.preventDefault();
+                var product_qty = $('#qty').val();
+                console.log(product_color, product_size, product_qty, product_id,'hello')
+
+                $.ajax({
+                    url: '{{ route('cart.add') }}',
+                    type: 'post',
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        id: product_id,
+                        color_id: product_color_id,
+                        color: product_color,
+                        size: product_size,
+                        qty: product_qty
+                    },
+                    success:function (data) {
+                        if (data.success) {
+                            $('#mini-cart').append(data.html);
+                            $('#cart_qty').text(data.cart_qty);
+                            // if(location.reload()) {
+                                $('.cart-nav').css('right', '0%');
+
+                            // }
+                            var leng_item_cart = $('.item').length;
+                            console.log(leng_item_cart, 'leng-item-cart');
+                            for( let i = 0; i < leng_item_cart; i++) {
+                                $('.item:eq('+i+') .ti-close').click(function(e) {
+                                    console.log($('.item:eq('+i+')').attr('data-value'), 'data value');
+                                    e.preventDefault();
+                                    if(confirm('Bạn có chắc chắn muốn xóa sản phẩm này không ?')) {
+                                        var del_id = $('.item:eq('+i+')').attr('data-value');
+                                        $.ajax({
+                                            url: '{{ route('cart.delete') }}',
+                                            type: 'post',
+                                            data: {
+                                                _token: "{{ csrf_token() }}",
+                                                del_id: del_id,
+                                            },
+                                            success: function(data) {
+                                                if(data.success) {
+                                                    // $('.item:eq('+i+')').css('display', 'none');
+                                                    $('.item:eq('+i+')').addClass('off-item');
+                                                    let leng_item_cart = $('.item').not('.off-item').length;
+                                                    console.log('out of cart', leng_item_cart, 2)
+                                                    if(leng_item_cart === 0) {
+                                                        console.log('out of cart')
+                                                        $('#mini-cart').append('<li style="list-style: none"><div style="text-align: center"><h5>Giỏ hàng rỗng</h5></div></li>');
+                                                    }
+                                                }
+                                            }
+                                        })
+                                    }
+                                });
+                            }
+                            console.log('success', data.cart_qty)
+                        }
+                    },
+
+                })
+            });
         });
 
     </script>

@@ -24,7 +24,11 @@ class LoginController extends Controller
         ]);
         $username = $request->input('email');
         $password = $request->input('password');
-        if( Auth::attempt(['email' => $username, 'password' => $password]) || Auth::attempt(['phone' => $username, 'password' => $password])) {
+        $remember = false;
+        if ($request->input('remember-me') == 'on') {
+            $remember = true;
+        }
+        if( Auth::attempt(['email' => $username, 'password' => $password] ,$remember) || Auth::attempt(['phone' => $username, 'password' => $password], $remember)) {
             return redirect()->route('login.show')->with('success', 'Bạn đã đăng nhập thành công!');
         }
         else{

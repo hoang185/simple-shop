@@ -851,6 +851,9 @@
   line-height: 38px;
   text-transform: uppercase;
 }
+#product-detail .cart-nav .cart-nav-content .block-content .cart-item .minicart-item .off-item {
+  display: none;
+}
 #product-detail .cart-nav .cart-nav-content .action {
   text-align: center;
   padding: 20px 20px 0 20px;

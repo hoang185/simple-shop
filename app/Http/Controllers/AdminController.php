@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Attribute;
 use Illuminate\Support\Facades\URL;
+use Cart;
+
 
 class AdminController extends Controller
 {
@@ -47,11 +49,31 @@ class AdminController extends Controller
 
     public function productDetail(Request $request)
     {
+//        $data = [
+//            'id' => 1,
+//            'name' => 'Jacket',
+//            'price' => 10000,
+//            'weight' => 12,
+//            'qty' => 23,
+//            'image' => 'imag',
+//            'size' => 'xs',
+//            'color' => 'dden',
+//            'options' => ['image' => 'sf']
+//        ];
+//        //Cart::remove('96b00aff09ab2ea50a1466fa04b9a182');
+//        Cart::add($data);
+//        $product_cart = $data;
+//        $content = Cart::content();
+//        $end = end($content);
+//        $product = end($end);
+//        dd($product->options['size']);
+//        Cart::destroy();
+
         $namevi = $request->product;
         $product = Product::where('namevi', $namevi)->first();
         $id = $product->id;
         $attributes = Attribute::join('product_color', 'attributes.product_color_id', '=', 'product_color.id')->where('product_id', $id)->get();
-//        dd($product, $attributes);
+        //        dd($product, $attributes);
         return view('layout.product.product-detail', compact('product', 'attributes'));
     }
 
@@ -67,20 +89,21 @@ class AdminController extends Controller
         return view('layout.cart.checkout');
     }
 
-    public function search(Request $request) {
-//        $request->validate(['keyword' => 'required']);
+    public function search(Request $request)
+    {
+        //        $request->validate(['keyword' => 'required']);
         $page_title = SEARCH_RESULT;
         $search = !empty($request->input('keyword')) ? $request->input('keyword') : '';
         $keyword = str_replace(' ', '%', $search);
-        $products = Product::where('namevi', 'LIKE', '%'.$keyword.'%')->get();
-        $cats = Category::where('categoryvi', 'LIKE', '%'.$keyword.'%')->get();
-//        dd($cats);
-        foreach($cats as $key => $cat) {
+        $products = Product::where('namevi', 'LIKE', '%' . $keyword . '%')->get();
+        $cats = Category::where('categoryvi', 'LIKE', '%' . $keyword . '%')->get();
+        //        dd($cats);
+        foreach ($cats as $key => $cat) {
             $cat_id = $cat->id;
             $product_cat = Product::where('cat_id', $cat_id)->get();
             $products = $products->merge($product_cat);
         }
-//        dd($cats, $products);
+        //        dd($cats, $products);
         $slug = $page_title;
         $count = $products->count();
         return view('layout.special-product.index', compact('products', 'page_title', 'slug', 'count', 'search'));
