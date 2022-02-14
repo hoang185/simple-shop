@@ -62,7 +62,8 @@
             <button class="close_search" id="close_search">
                 <i class="ti-close" style="font-size: 25px; "></i>
             </button>
-            <form class="input-search" method="POST" action="index.php?page_layout=search">
+            <form class="input-search" method="POST" action="{{ route('product.search') }}">
+                @csrf
                 <input name="keyword" class="form-control mt-3" type="search" placeholder="TÌM KIẾM" aria-label="Search" style="font-family: 'Condensed-Light'; color: #231f20" required>
                 <div class="icon_search">
                     <i class="ti-search" style="font-size: 22px; padding: 0 10px;position: absolute; right: 20px; top: 110px"></i>

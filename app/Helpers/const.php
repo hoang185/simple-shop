@@ -18,4 +18,9 @@ define('SIZE_L', 'l');
 define('SIZE_XL', 'xl');
 define('SIZE_XXL', 'xxl');
 define('SEARCH_RESULT', 'Kết quả tìm kiếm');
+define('BAO_QUAN_AO_TRANG', '5-meo-bat-hu-de-bao-quan-chiec-ao-trang-cua-ban');
+define('PHOI_MAU_OUTFIT', '6-bi-quyet-phoi-mau-outfit');
+define('ITEM_VAI_LINEN', 'nhung-items-lam-tu-vai-linen-ma-ban-khong-the-bo-qua');
+define('TANG_TUOI_THO', '6-meo-giup-tang-tuoi-tho-cua-quan-ao-hon-3-nam');
+
 

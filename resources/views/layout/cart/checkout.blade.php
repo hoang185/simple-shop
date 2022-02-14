@@ -14,14 +14,15 @@
                                     <div class="step-content">
                                         <div class="custom-contact-info">
                                             <div class="title">Thông tin liên hệ</div>
-                                            <form class="form-checkout" method="post" action="">
+                                            <form id="form-checkout" class="form-checkout" method="post" action="{{ route('checkout.info')}}">
+                                                @csrf
                                                 <fieldset class="fieldset">
                                                     <div class="field">
                                                         <label class="label">
                                                             <span>Email xác nhận đơn hàng</span>
                                                         </label>
                                                         <div class="control">
-                                                            <input type="email" class="input-text">
+                                                            <input name="email" type="email" class="input-text">
                                                         </div>
                                                     </div>
                                                     <div class="field">
@@ -29,7 +30,7 @@
                                                             <span>Điện thoại (Di động)</span>
                                                         </label>
                                                         <div class="control">
-                                                            <input type="number" class="input-text">
+                                                            <input name="phone" type="number" class="input-text">
                                                         </div>
                                                     </div>
                                                     <div class="choice field">
@@ -38,19 +39,13 @@
                                                             <span>Tôi muốn nhận bản tin của Simple qua email</span>
                                                         </label>
                                                     </div>
-                                                </fieldset>
-                                            </form>
-                                        </div>
-                                        <div class="custom-address-info">
-                                            <div class="title">Thông tin giao hàng</div>
-                                            <form class="form-shipping-address">
-                                                <div class="fieldset address">
+                                                    <div class="title">Thông tin giao hàng</div>
                                                     <div class="field _required">
                                                         <label class="label">
                                                             <span>Họ và Tên</span>
                                                         </label>
                                                         <div class="control">
-                                                            <input class="input-text" type="text">
+                                                            <input name="name" class="input-text" type="text">
                                                         </div>
                                                     </div>
                                                     <div class="field _required">
@@ -58,7 +53,7 @@
                                                             <span>TỈNH/THÀNH PHỐ</span>
                                                         </label>
                                                         <div class="control">
-                                                            <input class="input-text" type="text">
+                                                            <input name="city" class="input-text" type="text">
                                                         </div>
                                                     </div>
                                                     <div class="field _required">
@@ -66,7 +61,7 @@
                                                             <span>QUẬN/HUYỆN</span>
                                                         </label>
                                                         <div class="control">
-                                                            <input class="input-text" type="text">
+                                                            <input name="district" class="input-text" type="text">
                                                         </div>
                                                     </div>
                                                     <div class="field _required">
@@ -74,7 +69,7 @@
                                                             <span>PHƯỜNG/XÃ</span>
                                                         </label>
                                                         <div class="control">
-                                                            <input class="input-text" type="text">
+                                                            <input name="village" class="input-text" type="text">
                                                         </div>
                                                     </div>
                                                     <div class="field _required">
@@ -82,24 +77,25 @@
                                                             <span>ĐỊA CHỈ GIAO HÀNG</span>
                                                         </label>
                                                         <div class="control">
-                                                            <input class="input-text" type="text">
+                                                            <input name="address" class="input-text" type="text">
                                                         </div>
                                                     </div>
-                                                </div>
+                                                    <div class="field">
+                                                        <label class="label">
+                                                            <span>Ghi chú</span>
+                                                        </label>
+                                                        <div class="control">
+                                                            <textarea name="detail" class="admin__control-textarea"
+                                                                      placeholder="Ghi chú cho đơn hàng"></textarea>
+                                                        </div>
+                                                    </div>
+
+                                                </fieldset>
                                             </form>
                                         </div>
                                     </div>
                                 </li>
-                                <li class="checkout-shipping-method">
-                                    <div class="field">
-                                        <label class="label">
-                                            <span>Ghi chú</span>
-                                        </label>
-                                        <div class="control">
-                                            <textarea class="admin__control-textarea" placeholder="Ghi chú cho đơn hàng"></textarea>
-                                        </div>
-                                    </div>
-                                </li>
+
                             </ul>
                         </div>
                         <div class="shopping-cart-summary">
@@ -114,7 +110,7 @@
                                             <tr class="totals sub">
                                                 <th class="mark" scope="row">Tạm tính</th>
                                                 <td class="amount">
-                                                    <span class="price">480000&nbsp;đ</span>
+                                                    <span class="price">{{ ($total>0) ?number_format($total,0,',','.'):0 }}&nbsp;đ</span>
                                                 </td>
                                             </tr>
                                             <tr class="total-rules">
@@ -122,7 +118,7 @@
                                                     <span>MUA 1 GIẢM 10%</span>
                                                 </th>
                                                 <td class="amount">
-                                                    <span class="rule-amount">-48.000&nbsp;đ</span>
+                                                    <span class="rule-amount">{{ ($total>0) ?number_format($item_price->sale_price,0,',','.'):0 }}&nbsp;đ</span>
                                                 </td>
                                             </tr>
                                             <tr class="totals shipping">
@@ -130,7 +126,7 @@
                                                     <span>Phí vận chuyển</span>
                                                 </th>
                                                 <td class="amount">
-                                                    <span class="price">0&nbsp;đ</span>
+                                                    <span class="price">{{ number_format(intval($item_price->ship_price),0,',','.') }}&nbsp;đ</span>
                                                 </td>
                                             </tr>
                                             <tr class="grand totals">
@@ -139,7 +135,7 @@
                                                 </th>
                                                 <td class="amount">
                                                     <strong>
-                                                        <span class="price">432.000&nbsp;đ</span>
+                                                        <span class="price">{{ ($total>0) ?number_format($total+intval($item_price->ship_price),0,',','.'):0 }}&nbsp;đ</span>
                                                     </strong>
                                                 </td>
                                             </tr>
@@ -150,7 +146,7 @@
                                 <div class="cart-summary">
                                     <ul class="checkout-method-items">
                                         <li class="item">
-                                            <button class="primary checkout">
+                                            <button class="primary checkout checkout-button">
                                                 <span>đặt hàng</span>
                                             </button>
                                         </li>
@@ -168,4 +164,47 @@
             </div>
         </div>
     </section>
+    <script>
+        $(document).ready(function() {
+            
+
+           
+            $("#form-checkout").validate({
+                onfocusout: false,
+                onkeyup: false,
+                onclick: false,
+                rules: {
+                    "name": {
+                        required: true,
+                    },
+                    "email": {
+                        required: true,
+                    },
+                    "phone": {
+                        required: true,
+                    },
+                    "city": {
+                        required: true,
+                    },
+                    "district": {
+                        required: true,
+                    },
+                    "village": {
+                        required: true,
+                    },
+                    "address": {
+                        required: true,
+                    },
+
+                },
+
+            });
+            $('.checkout-button').click( function(e) {
+                if($("#form-checkout").valid()) {               
+                    $('#form-checkout').submit()                              
+                }
+            });
+
+        });
+    </script>
 @endsection

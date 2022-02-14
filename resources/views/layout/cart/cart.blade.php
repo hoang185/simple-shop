@@ -5,29 +5,30 @@
     <section id="cart-checkout">
         <div class="row">
             <div class="col-lg-12">
+                @php $count = !empty(\Cart::content()->count()) ? \Cart::content()->count() : 0 @endphp
+
                 <div class="cart-container">
+                    @if(count(Cart::content()) > 0)
+
                     <form method="post" class="form form-cart" action="">
                         <div class="cart table-wrapper">
                             <div class="cart-header">
                                 <h4>giỏ hàng</h4>
                                 <span class="cart-header_item">
-                                    @php $count = !empty(\Cart::content()->count()) ? \Cart::content()->count() : 0 @endphp
                                 <span>{{ $count }}</span>&nbsp;sản phẩm
                             </span>
                             </div>
                             <ul id="shopping-cart-table" class="items">
 
-                                @if(count(Cart::content()) > 0)
                                     @php $product_cart = Cart::content() @endphp
                                     @foreach( $product_cart as $item)
                                         <li class="item product " data-value="{{ $item->rowId  }}" role="tab">
                                             <div class="product">
                                                 <div class="product-item-photo">
                                                     <a href="#">
-                <span>
-                    <span><img
-                            src="{{ $item->options['image'] }}"></span>
-                </span>
+                                                        <span>
+                                                              <span><img src="{{ $item->options['image'] }}"></span>
+                                                        </span>
                                                     </a>
                                                 </div>
                                                 <div class="product-item-detail">
@@ -43,15 +44,15 @@
                                                         <span>{{ $item->options['size'] }} / {{ $item->options['color'] }}</span>
                                                     </div>
                                                     <div class="product-item-price">
-                                                        <span>{{ $item->price }}&nbsp;đ</span>
+                                                        <span>{{  number_format($item->price,0,',','.')  }}&nbsp;đ</span>
                                                     </div>
                                                     <div class="box-tocart">
                                                         <div class="fieldset">
                                                             <div class="field qty">
                                                                 <div class="control">
-                                                                    <span class="edit-qty minus" onclick="minusQty('qty-1')">-</span>
-                                                                    <input class="input-text qty" type="number" name="qty" id="qty-1" value="{{ $item->qty }}">
-                                                                    <span class="edit-qty plus" onclick="plusQty('qty-1')">+</span>
+                                                                    <span class="edit-qty minus" onclick="minusQty('qty-{{ $item->rowId }}')">-</span>
+                                                                    <input class="input-text qty qty-input" type="number" name="qty" id="qty-{{ $item->rowId }}" value="{{ $item->qty }}">
+                                                                    <span class="edit-qty plus" onclick="plusQty('qty-{{ $item->rowId }}')">+</span>
                                                                 </div>
                                                                 <button class="update-cart-item">
                                                                     <span>Cập nhật</span>
@@ -64,10 +65,12 @@
                                         </li>
                                     @endforeach
 
-                                @endif
+
+
                             </ul>
                         </div>
                     </form>
+
                     <div class="shopping-cart-summary">
                         <div class="cart-order-summary">
                             <div class="cart-totals">
@@ -80,15 +83,15 @@
                                         <tr class="totals sub">
                                             <th class="mark" scope="row">Tạm tính</th>
                                             <td class="amount">
-                                                <span class="price">480000&nbsp;đ</span>
+                                                <span class="price">{{ ($total>0) ?number_format($total,0,',','.'):0 }}&nbsp;đ</span>
                                             </td>
                                         </tr>
                                         <tr class="total-rules">
                                             <th class="mark" scope="row">
-                                                <span>MUA 1 GIẢM 10%</span>
+                                                <span>Mã giảm giá</span>
                                             </th>
                                             <td class="amount">
-                                                <span class="rule-amount">-48.000&nbsp;đ</span>
+                                                <span class="rule-amount">{{ ($total>0) ?number_format($item_price->sale_price,0,',','.'):0 }}&nbsp;đ</span>
                                             </td>
                                         </tr>
                                         <tr class="totals shipping">
@@ -96,7 +99,7 @@
                                                 <span>Phí vận chuyển</span>
                                             </th>
                                             <td class="amount">
-                                                <span class="price">0&nbsp;đ</span>
+                                                <span class="price">{{ number_format(intval($item_price->ship_price),0,',','.') }}&nbsp;đ</span>
                                             </td>
                                         </tr>
                                         <tr class="grand totals">
@@ -105,7 +108,8 @@
                                             </th>
                                             <td class="amount">
                                                 <strong>
-                                                    <span class="price">432.000&nbsp;đ</span>
+                                                    <span class="price">{{ ($total>0) ?number_format($total+intval($item_price->ship_price),0,',','.'):0 }}&nbsp;đ</span>
+
                                                 </strong>
                                             </td>
                                         </tr>
@@ -129,6 +133,9 @@
                             </div>
                         </div>
                     </div>
+                    @else
+                        <li style="list-style: none; text-align: center"><h5>Giỏ hàng rỗng</h5></li>
+                    @endif
                 </div>
             </div>
         </div>
@@ -178,6 +185,43 @@
                         })
                         // $('.item:eq('+i+')').css('display', 'none');
                     }
+                });
+            }
+
+            // update cart function
+            for( let i = 0; i < leng_item_cart; i++) {
+                $('.item:eq(' + i + ') .update-cart-item').click(function (e) {
+                    console.log($('.item:eq('+i+')').attr('data-value'), 'data value');
+                    e.preventDefault();
+                    var update_id = $('.item:eq(' + i + ')').attr('data-value');
+                    // $('#qty').val()
+                    var update_qty = $('.item:eq(' + i + ') .qty-input').val();
+                    console.log(update_id, update_qty)
+                    $.ajax({
+                        url: '{{ route('cart.update') }}',
+                        type: 'post',
+                        data: {
+                            _token: "{{ csrf_token() }}",
+                            update_id: update_id,
+                            update_qty: update_qty,
+                        },
+                        success: function (data) {
+                            if (data.success) {
+                                // alert(data.success_update)
+
+                                swal("Success", data.success_update, "success")
+                                .then((value) => {
+                                    $('.item:eq(' + i + ') qty').val(update_qty);
+
+                                    location.reload();
+                                });
+                                // $('.item:eq('+i+')').css('display', 'none');
+
+
+                            }
+                        }
+                    })
+
                 });
             }
         });

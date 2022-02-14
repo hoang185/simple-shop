@@ -45,4 +45,10 @@ class CartController extends Controller
         }
         return response()->json(['success' => true]);
     }
+    public function updateCart(Request $request) {
+        if( !empty($request->update_id)) {
+            Cart::update($request->update_id, $request->update_qty);
+        }
+        return response()->json(['success' => true, 'success_update' => 'Bạn đã cập nhật giỏ hàng thành công']);
+    }
 }

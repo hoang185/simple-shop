@@ -16,5 +16,12 @@
 
     <!-- blog -->
     @include('layout.home.blog')
+    <script>
+        $(document).ready(function() {
+            <?php if(\Session::has('success')): ?>
+                swal("Success", '<?php echo e(\Session::get('success')); ?>', "success");
+            <?php endif; ?>
+        })
+    </script>
 @endsection
 

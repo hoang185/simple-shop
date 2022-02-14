@@ -284,3 +284,128 @@ section {
 
 }
 
+.article__content {
+    padding: 2.5% 15%;
+    .article__content--header {
+        h1 {
+            font-size: xxx-large;
+            text-align: start;
+            font-weight: bold;
+            padding: 20px 0;
+            line-height: 1.5;
+        }
+        em {
+            margin-top: 20px;
+            color: #aeaeae;
+            font-size: large;
+            text-align: start;
+            font-weight: 600;
+        }
+        .author__info {
+            display: grid;
+            grid-template-columns: 50px 1fr;
+            grid-gap: 10px;
+            margin-top: 20px;
+            align-items: center;
+            .author__info--avt {
+                span {
+                    display: block;
+                    width: 100%;
+                    padding-top: 100%;
+                    background-position: center;
+                    background-size: cover;
+                    background-repeat: no-repeat;
+                    border: thin solid #f1f1f1;
+                    border-radius: 50px;
+                    border-collapse: collapse;
+                }
+            }
+            .author__info--overview {
+                p {
+                    margin: 10px 0;
+                    color: #aeaeae;
+                }
+                p.name {
+                    font-size: medium;
+                    text-align: start;
+                    font-weight: 600;
+                    color: #000000;
+                }
+            }
+        }
+        .article__banner {
+            margin-top: 20px;
+            span {
+                display: block;
+                width: 100%;
+                padding-top: 56.25%;
+                background-position: center;
+                background-size: cover;
+                background-repeat: no-repeat;
+            }
+        }
+    }
+    .article__content--body {
+        margin-top: 50px;
+        padding: 0 5%;
+        .codex-editor {
+            margin-top: 50px;
+            padding: 0 5%;
+            .codex-editor__redactor {
+                padding-bottom: 100px !important;
+                .ce-block:first-of-type {
+                    margin-top: 0;
+                }
+                .ce-block {
+                    .ce-block__content {
+                        max-width: 70vw;
+                        position: relative;
+                        //max-width: 650px;
+                        margin: 0 auto;
+                        //-webkit-transition: background-color .15s ease;
+                        transition: background-color .15s ease;
+                        .ce-paragraph {
+                            line-height: 1.6em;
+                            outline: none;
+                            padding: 10px;
+
+                            p {
+                                font-family: Condensed-Regular;
+                                font-weight: bold;
+                            }
+                        }
+                        .ce-paragraph.ce-paragraph--left {
+                            text-align: left;
+                        }
+                        .cdx-block {
+                            padding: .4em 0;
+                        }
+                        .cdx-simple-image {
+                            img {
+                                max-width: 100%;
+                                vertical-align: bottom;
+                            }
+                            .cdx-input {
+                                margin-top: 10px;
+                            }
+                            .cdx-simple-image__caption {
+                                display: none;
+                            }
+                        }
+                    }
+                }
+            }
+            .codex-editor-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                z-index: 999;
+                pointer-events: none;
+                overflow: hidden;
+            }
+        }
+    }
+}
+

@@ -22,7 +22,7 @@
                     <span>{{ $product_cart->options['size'] }} / {{ $product_cart->options['color'] }}</span>
                 </div>
                 <div class="product-item-price">
-                    <span>{{ $product_cart->price }}&nbsp;đ</span>
+                    <span>{{ number_format($product_cart->price,0,',','.') }}&nbsp;đ</span>
                 </div>
             <div class="box-tocart">
                 <div class="fieldset">

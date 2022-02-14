@@ -20,9 +20,7 @@ use Illuminate\Support\Facades\Hash;
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-})->name('home');
+Route::get('/', [AdminController::class, 'showHome'])->name('home');
 //auth
 Route::get('login', [LoginController::class, 'showLoginForm'])->name('login.show');
 Route::get('forget-password', function() {
@@ -49,9 +47,14 @@ Route::get('p/{product}', [AdminController::class, 'productDetail'])->name('prod
 //cart
 Route::get('checkout/cart', [AdminController::class, 'checkoutCart'])->name('cart.checkout');
 Route::get('checkout/pay', [AdminController::class, 'checkoutPay'])->name('pay.checkout');
+Route::post('checkout/pay/insert', [AdminController::class, 'insertOrder'])->name('checkout.info');
 Route::post('search', [AdminController::class, 'search'])->name('product.search');
 Route::post('cart/add', [CartController::class, 'addCart'])->name('cart.add');
 Route::post('cart/delete', [CartController::class, 'deleteCart'])->name('cart.delete');
+Route::post('cart/update', [CartController::class, 'updateCart'])->name('cart.update');
+
+//blog
+Route::get('blog/{article}', [AdminController::class, 'showBlog'])->name('blog.index');
 //Route::get('convert', [AdminController::class, 'convertLower']);
 
 

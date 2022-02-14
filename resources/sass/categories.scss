@@ -1,4 +1,18 @@
 @import "resources/sass/variable";
+.swal-button {
+    font-family: Condensed-Regular;
+    color: #fff;
+    padding: 7px 19px;
+    border-radius: 2px;
+    background-color: #000;
+    font-size: 12px;
+    border: none;
+    outline: none;
+    &:not([disabled]):hover {
+        background-color: #000 !important;
+    }
+}
+
 //show product
 #categories {
     margin-bottom: 50px;
@@ -1066,7 +1080,7 @@
                                         margin: 0;
                                         border: 0;
                                         .field:not(.choice) {
-                                            margin-bottom: 10px;
+                                            margin-bottom: 20px;
                                             .label {
                                                 font-size: 12px;
                                                 margin: 0;
@@ -1089,6 +1103,26 @@
                                                     width: 48%;
                                                     height: 100%;
                                                     outline: none;
+                                                }
+                                                textarea {
+                                                    width: 100%;
+                                                    height: auto;
+                                                    border: 1px solid #707070;
+                                                    min-height: 120px;
+                                                    background: #fff;
+                                                    box-shadow: none;
+                                                    padding: 10px 13px;
+                                                    font-size: 16px;
+                                                    font-weight: 300;
+                                                    outline: none;
+                                                }
+                                                textarea::placeholder {
+                                                    color: #2d3748;
+                                                    opacity: 0.5;
+                                                }
+                                                label.error {
+                                                    display: block;
+                                                    color: red;
                                                 }
                                             }
                                         }
@@ -1132,6 +1166,23 @@
                                                     height: 100%;
                                                     outline: none;
                                                 }
+                                                textarea {
+                                                    width: 100%;
+                                                    height: auto;
+                                                    border: 1px solid #707070;
+                                                    min-height: 120px;
+                                                    background: #fff;
+                                                    box-shadow: none;
+                                                    padding: 10px 13px;
+                                                    font-size: 16px;
+                                                    font-weight: 300;
+                                                    outline: none;
+                                                }
+                                                textarea::placeholder {
+                                                    color: #2d3748;
+                                                    opacity: 0.5;
+                                                }
+
                                             }
                                         }
                                     }

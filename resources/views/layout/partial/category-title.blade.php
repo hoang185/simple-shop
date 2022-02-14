@@ -4,7 +4,7 @@
     @else
         <h1 class="info-title">{{ $slug }}</h1>
     @endif
-    @if(isset($count) && $count == 0)
+    @if( $slug == SEARCH_RESULT && isset($count) && $count == 0)
         <p>TÌM KIẾM CỦA BẠN KHÔNG CÓ KẾT QUẢ</p>
     @endif
     <p>Tất cả những sản phẩm Mới nhất nằm trong BST được mở bán Hàng Tuần sẽ được cập nhật liên tục tại đây.
