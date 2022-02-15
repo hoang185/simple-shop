@@ -13,6 +13,9 @@ use Cart;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use Carbon\Carbon;
+use App\Jobs\SendMail;
+use App\Mail\SuccessfulOrderNotification;
+use Mail;
 
 
 class AdminController extends Controller
@@ -107,36 +110,36 @@ class AdminController extends Controller
 
     public function insertOrder(Request $request)
     {
-        
-            $data = $request->all();
-            $now = Carbon::now();
-            $date = Carbon::parse($now)->format('Y-m-d');
-            $mail_check = !empty($request->has('mail-check')) ? 1 : 0;
-            $order_code = Carbon::parse($now)->format('dmYHis');
-            $order_code .= $data['phone'];
-            // dd($order_code);
-            $total_bill = str_replace(',', '',Cart::total()) ;
-        
-            try {
-                $orders = Order::insert([
-                    'order_code' => $order_code,
-                    'customer_name' => $data['name'],
-                    'phone' => $data['phone'],
-                    'total_bill' => $total_bill,
-                    'date' => $date,
-                    'email' => $data['email'],
-                    'city' => $data['city'],
-                    'district' => $data['district'],
-                    'village' => $data['village'],
-                    'address' => $data['address'],
-                    'send_mail' => $mail_check,
-                    'detail' => $data['detail'],
-                ]);
-            } catch (\Exception $e) {
-                return response()->json(['status' => 'error', 'message' => $e->getMessage()]);
-            }
-           try {
-                 $order = Order::where('order_code', $order_code)->first();
+
+        $data = $request->all();
+        $now = Carbon::now();
+        $date = Carbon::parse($now)->format('Y-m-d');
+        $mail_check = !empty($request->has('mail-check')) ? 1 : 0;
+        $order_code = Carbon::parse($now)->format('dmYHis');
+        $order_code .= $data['phone'];
+        // dd($order_code);
+        $total_bill = str_replace(',', '', Cart::total());
+
+        try {
+            $orders = Order::insert([
+                'order_code' => $order_code,
+                'customer_name' => $data['name'],
+                'phone' => $data['phone'],
+                'total_bill' => $total_bill,
+                'date' => $date,
+                'email' => $data['email'],
+                'city' => $data['city'],
+                'district' => $data['district'],
+                'village' => $data['village'],
+                'address' => $data['address'],
+                'send_mail' => $mail_check,
+                'detail' => $data['detail'],
+            ]);
+        } catch (\Exception $e) {
+            return response()->json(['status' => 'error', 'message' => $e->getMessage()]);
+        }
+        try {
+            $order = Order::where('order_code', $order_code)->first();
             $order_id = $order->id;
             $content = Cart::content();
             foreach ($content as $key => $item) {
@@ -146,15 +149,28 @@ class AdminController extends Controller
                     'quantity' => $item->qty,
                 ]);
             }
-           } catch (\Exception $e) {
-               return $e->getMessage();
-           }
-          
-            Cart::destroy();
-            // dd($order_code);
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
 
-            return redirect()->route('home')->with('success', 'Bạn đã thanh toán đơn hàng thành công');
-       
+        $item_price = Sale::first();
+        $total = str_replace(',', '', Cart::total());
+        $total = intval($total);
+        $item_price['total'] = $total;
+        $item_price['name'] = $data['name'];
+//        dd($item_price->total);
+        if($orders && $order_detail) {
+            Mail::to($data['email'])->send(new SuccessfulOrderNotification($content ,$item_price));
+        }
+
+        Cart::destroy();
+        // dd($order_code);
+
+        return redirect()->route('home')->with('success', 'Bạn đã thanh toán đơn hàng thành công');
+
+    }
+    public function test() {
+        return view('mail.order');
     }
 
     public function search(Request $request)
@@ -210,4 +226,6 @@ class AdminController extends Controller
             return response()->json(['status' => 'error', 'message' => $e->getMessage()]);
         }
     }
+
+
 }

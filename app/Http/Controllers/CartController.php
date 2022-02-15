@@ -21,7 +21,7 @@ class CartController extends Controller
         $data = [
             'id' => $id,
             'name' => $product['name'],
-            'price' => $product['price'],
+            'price' => ($product['sale_price']>0) ? $product['sale_price'] : $product['price'],
             'weight' => 12,
             'qty' => $qty,
             'image' => $product['image'],
@@ -46,9 +46,15 @@ class CartController extends Controller
         return response()->json(['success' => true]);
     }
     public function updateCart(Request $request) {
-        if( !empty($request->update_id)) {
-            Cart::update($request->update_id, $request->update_qty);
+        try {
+            if( !empty($request->update_id)) {
+                Cart::update($request->update_id, $request->update_qty);
+            }
+//            dd(Cart::content());
+            return response()->json(['success' => true, 'success_update' => 'Bạn đã cập nhật giỏ hàng thành công']);
+        } catch(\Exception $e) {
+            $e->getMessage();
         }
-        return response()->json(['success' => true, 'success_update' => 'Bạn đã cập nhật giỏ hàng thành công']);
+
     }
 }

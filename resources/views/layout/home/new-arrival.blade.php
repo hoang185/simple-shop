@@ -24,7 +24,7 @@
       </div>
       <div class="slider active-slider">
         <div class=" for-her owl-carousel">
-            @foreach($new_hims as $item)
+            @foreach($new_hers as $item)
 
             <div>
             <div><a href="{{ route('product.detail', ['product' => $item->namevi]) }}"><span style="background-image:url({{ $item->image }})" alt=""></span></a></div>

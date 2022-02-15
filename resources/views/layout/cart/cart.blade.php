@@ -65,8 +65,6 @@
                                         </li>
                                     @endforeach
 
-
-
                             </ul>
                         </div>
                     </form>
@@ -167,24 +165,35 @@
             for( let i = 0; i < leng_item_cart; i++) {
                 $('.item:eq('+i+') .ti-close').click(function(e) {
                     e.preventDefault();
-                    if(confirm('Bạn có chắc chắn muốn xóa sản phẩm này không ?')) {
-                        var del_id = $('.item:eq('+i+')').attr('data-value');
-                        console.log($('.item:eq('+i+')').attr('data-value'));
-                        $.ajax({
-                            url: '{{ route('cart.delete') }}',
-                            type: 'post',
-                            data: {
-                                _token: "{{ csrf_token() }}",
-                                del_id: del_id,
-                            },
-                            success: function(data) {
-                                if(data.success) {
-                                    location.reload()
-                                }
+                    // if(confirm('Bạn có chắc chắn muốn xóa sản phẩm này không ?')) {
+                    swal({
+                        title: false,
+                        text: "Bạn có chắc muốn loại bỏ sản phẩm này khỏi giỏ hàng không?",
+                        icon: false,
+                        buttons: true,
+                        dangerMode: true,
+                    })
+                        .then((willDelete) => {
+                            if (willDelete) {
+                                var del_id = $('.item:eq(' + i + ')').attr('data-value');
+                                console.log($('.item:eq(' + i + ')').attr('data-value'));
+                                $.ajax({
+                                    url: '{{ route('cart.delete') }}',
+                                    type: 'post',
+                                    data: {
+                                        _token: "{{ csrf_token() }}",
+                                        del_id: del_id,
+                                    },
+                                    success: function (data) {
+                                        if (data.success) {
+                                            location.reload()
+                                        }
+                                    }
+                                })
                             }
-                        })
+                        });
                         // $('.item:eq('+i+')').css('display', 'none');
-                    }
+                    // }
                 });
             }
 

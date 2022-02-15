@@ -55,6 +55,9 @@ Route::post('cart/update', [CartController::class, 'updateCart'])->name('cart.up
 
 //blog
 Route::get('blog/{article}', [AdminController::class, 'showBlog'])->name('blog.index');
+Route::get('test', [AdminController::class, 'test']);
 //Route::get('convert', [AdminController::class, 'convertLower']);
+
+
 
 

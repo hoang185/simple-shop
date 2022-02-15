@@ -28,9 +28,9 @@
                 <div class="fieldset">
                     <div class="field qty">
                         <div class="control">
-                            <span class="edit-qty minus" onclick="minusQty('qty-1')">-</span>
-                            <input class="input-text qty" type="number" name="qty" id="qty-1" value="{{ $product_cart->qty }}">
-                            <span class="edit-qty plus" onclick="plusQty('qty-1')">+</span>
+                            <span class="edit-qty minus" onclick="minusQty('qty-{{ $product_cart->rowId }}')">-</span>
+                            <input class="input-text qty qty-input" type="number" name="qty" id="qty-{{ $product_cart->rowId }}" value="{{ $product_cart->qty }}">
+                            <span class="edit-qty plus" onclick="plusQty('qty-{{ $product_cart->rowId }}')">+</span>
                         </div>
                         <button class="update-cart-item">
                             <span>Cập nhật</span>

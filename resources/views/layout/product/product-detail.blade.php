@@ -351,9 +351,6 @@
                                                 })
                                             }
                                         });
-                                    // if(confirm('Bạn có chắc chắn muốn xóa sản phẩm này không ?')) {
-
-                                    // }
                                 });
                             }
 
@@ -365,7 +362,7 @@
                                     var update_id = $('.item:eq(' + i + ')').attr('data-value');
                                     // $('#qty').val()
                                     var update_qty = $('.item:eq(' + i + ') .qty-input').val();
-                                    console.log(update_id, update_qty)
+                                    console.log(update_id, update_qty, 'jskfdj')
                                     $.ajax({
                                         url: '{{ route('cart.update') }}',
                                         type: 'post',
@@ -378,9 +375,14 @@
                                             if (data.success) {
                                                 // alert(data.success_update)
 
-                                                swal("Success", data.success_update, "success");
+                                                swal("Success", data.success_update, "success")
+                                            .then((value) => {
+                                                    $('.item:eq(' + i + ') .qty-input').val(update_qty);
+
+                                                    // location.reload();
+                                                });
                                                 // $('.item:eq('+i+')').css('display', 'none');
-                                                $('.item:eq(' + i + ') .qty-input').val(update_qty);
+
 
                                             }
                                         }
