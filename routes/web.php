@@ -55,7 +55,13 @@ Route::post('cart/update', [CartController::class, 'updateCart'])->name('cart.up
 
 //blog
 Route::get('blog/{article}', [AdminController::class, 'showBlog'])->name('blog.index');
-Route::get('test', [AdminController::class, 'test']);
+//Route::get('test', function() {
+//    return view('mail.login');
+//});
+Route::get('send-mail', function() {
+    return view('mail.login');
+})->name('admin.login');
+Route::post('send-mail', [AdminController::class, 'sendMail'])->name('admin.send-mail');
 //Route::get('convert', [AdminController::class, 'convertLower']);
 
 

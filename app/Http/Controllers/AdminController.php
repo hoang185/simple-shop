@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\SaleoffNotification;
+use App\Models\Admin;
 use App\Models\Category;
 use App\Models\Sale;
 use App\Models\ProductColor;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Attribute;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\URL;
 use Cart;
 use App\Models\Order;
@@ -16,6 +20,8 @@ use Carbon\Carbon;
 use App\Jobs\SendMail;
 use App\Mail\SuccessfulOrderNotification;
 use Mail;
+use App\Models\EmailTemplate;
+use Illuminate\Support\Facades\Hash;
 
 
 class AdminController extends Controller
@@ -225,6 +231,42 @@ class AdminController extends Controller
         } catch (\Exception $e) {
             return response()->json(['status' => 'error', 'message' => $e->getMessage()]);
         }
+    }
+
+    public function sendMail(Request $request) {
+
+        $request->validate([
+            'username'    => 'required',
+            'password' => 'required|min:5',
+        ]);
+
+        $username = $request->input('username');
+        $password = $request->input('password');
+        $admins = admin::get();
+        $check = 0;
+        foreach($admins as $key => $admin) {
+            if( $username == $admin->username && Hash::check($password, $admin->password)) {
+                $check = 1;
+            }
+        }
+        if( $check == 1) {
+            $users = User::where('send_mail', 1)->get();
+            $item = EmailTemplate::where('enable', 1)->first();
+            if (!empty($item->enable)) {
+                foreach ($users as $key => $user) {
+                    Mail::to($user->email)->send(new SaleoffNotification());
+                }
+                return 'send mail successfully';
+            } else {
+                return 'email template is not enabled to 1 or other error';
+            }
+        }
+        else{
+            return redirect()->route('admin.login')->with('error', 'Tài khoản không hợp lệ!');
+        }
+
+
+
     }
 
 

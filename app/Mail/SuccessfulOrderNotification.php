@@ -34,6 +34,6 @@ class SuccessfulOrderNotification extends Mailable
         $content = $this->content;
         $item_price = $this->item_price;
 
-        return $this->from('vuhuyhoang185@gmail.com')->subject('Thông báo đặt hàng thành công')->view('mail.order', compact('content', 'item_price'));
+        return $this->from('vuhuyhoang185@gmail.com')->subject(SUCCESS_ORDER_NOTI)->view('mail.order', compact('content', 'item_price'));
     }
 }
