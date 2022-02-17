@@ -8,6 +8,7 @@ use App\Http\Controllers\ForHerController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CartController;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Controllers\SocialAuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +30,7 @@ Route::get('forget-password', function() {
 })->name('forget-password');
 Route::get('logout', function() {
     Auth::logout();
+    Session::flush();
     return redirect()->route('home');
 })->name('logout');
 Route::post('update/{id}', [LoginController::class, 'updateAccount'])->name('user.update');
@@ -63,6 +65,10 @@ Route::get('send-mail', function() {
 })->name('admin.login');
 Route::post('send-mail', [AdminController::class, 'sendMail'])->name('admin.send-mail');
 //Route::get('convert', [AdminController::class, 'convertLower']);
+
+Route::get('/auth/facebook', [SocialAuthController::class, 'redirectToProvider'])->name('auth.facebook');
+Route::get('/auth/facebook/callback', [SocialAuthController::class, 'handleProviderCallback']);
+
 
 
 

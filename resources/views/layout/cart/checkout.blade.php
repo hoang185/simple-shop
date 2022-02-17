@@ -14,6 +14,10 @@
                                     <div class="step-content">
                                         <div class="custom-contact-info">
                                             <div class="title">Thông tin liên hệ</div>
+                                            @php
+                                                $name = !empty(session('name')) ? session('name'): 0;
+                                                $email = !empty(session('email')) ? session('email'): 0;
+                                            @endphp
                                             <form id="form-checkout" class="form-checkout" method="post" action="{{ route('checkout.info')}}">
                                                 @csrf
                                                 <fieldset class="fieldset">
@@ -22,7 +26,11 @@
                                                             <span>Email xác nhận đơn hàng</span>
                                                         </label>
                                                         <div class="control">
-                                                            <input name="email" type="email" class="input-text">
+                                                            @if(!empty($name))
+                                                                <input name="email" type="email" class="input-text" value="{{ $email }}">
+                                                            @else
+                                                                <input name="email" type="email" class="input-text">
+                                                            @endif
                                                         </div>
                                                     </div>
                                                     <div class="field">
@@ -45,7 +53,12 @@
                                                             <span>Họ và Tên</span>
                                                         </label>
                                                         <div class="control">
-                                                            <input name="name" class="input-text" type="text">
+                                                            @if(!empty($name))
+
+                                                                <input name="name" class="input-text" value="{{ $name }}">
+                                                            @else
+                                                                <input name="name" class="input-text" type="text">
+                                                            @endif
                                                         </div>
                                                     </div>
                                                     <div class="field _required">
@@ -166,9 +179,9 @@
     </section>
     <script>
         $(document).ready(function() {
-            
 
-           
+
+
             $("#form-checkout").validate({
                 onfocusout: false,
                 onkeyup: false,
@@ -200,8 +213,8 @@
 
             });
             $('.checkout-button').click( function(e) {
-                if($("#form-checkout").valid()) {               
-                    $('#form-checkout').submit()                              
+                if($("#form-checkout").valid()) {
+                    $('#form-checkout').submit()
                 }
             });
 

@@ -35,9 +35,17 @@
           </div>
             @php
                 $user = Auth::user();
+                $name = !empty(session('name')) ? session('name'): 0;
+                $email = !empty(session('email')) ? session('email'): 0;
             @endphp
           <div class="login">
-            <a href="{{ route('login.show') }}"> {{ !empty($user) ? $user->name :'Đăng nhập' }}</a>
+              @if(!empty($user))
+                  <a href="{{ route('login.show') }}"> {{ $user->name }}</a>
+              @elseif(!empty($name))
+                  <a href="{{ route('login.show') }}"> {{ $name }}</a>
+              @else
+                  <a href="{{ route('login.show') }}">Đăng nhập</a>
+              @endif
               @php $count = !empty(\Cart::content()->count()) ? \Cart::content()->count() : 0 @endphp
             <a href="{{ route('cart.checkout') }}">Giỏ Hàng (<span id="cart_qty">{{ $count }}</span>)</a>
           </div>

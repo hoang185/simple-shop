@@ -335,7 +335,7 @@
                         <tr style="border-bottom: 1px solid rgba(0,0,0,.05);">
                             <td valign="middle" width="80%" style="text-align:left; padding: 0 2.5em;">
                                 <div class="product-entry">
-                                    <img src="images/prod-1.jpg" alt="" style="width: 100px; max-width: 600px; height: auto; margin-bottom: 20px; display: block;">
+                                    <img src="{{ $item->options['image'] }}" alt="" style="width: 100px; max-width: 600px; height: auto; margin-bottom: 20px; display: block;">
                                     <div class="text">
                                         <h3>{{ $item->name }}</h3>
                                         <span>{{ $item->options['size'] }} /{{ $item->options['color']  }}</span>
@@ -351,7 +351,7 @@
                     <tr style="border-bottom: 1px solid rgba(0,0,0,.05);">
                         <td valign="middle" width="80%" style="text-align:left; padding: 0 2.5em;">
                             <div class="product-entry">
-                                <img src="{{ $item->options['image'] }}" alt="" style="width: 100px; max-width: 600px; height: auto; margin-bottom: 20px; display: block;">
+                                <img src="" alt="" style="width: 100px; max-width: 600px; height: auto; margin-bottom: 20px; display: block;">
                                 <div class="text">
                                     <p>Tổng giá trị sản phẩm : {{ ($item_price->total>0) ?number_format($item_price->total,0,',','.'):0 }}&nbsp;đ</p>
                                     <p>Khuyến mãi : {{ ($item_price->total>0) ?number_format($item_price->sale_price,0,',','.'):0 }}&nbsp;đ</p>

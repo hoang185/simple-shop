@@ -29,5 +29,10 @@ return [
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
+    'facebook' => [
+        'client_id' => '428642048813431',
+        'client_secret' => '3fbd138aa7712ffd6c0ce402b2b4d414',
+        'redirect' => 'https://d568-42-113-121-50.ngrok.io/auth/facebook/callback',
+    ],
 
 ];
