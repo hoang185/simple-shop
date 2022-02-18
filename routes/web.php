@@ -64,7 +64,7 @@ Route::get('send-mail', function() {
     return view('mail.login');
 })->name('admin.login');
 Route::post('send-mail', [AdminController::class, 'sendMail'])->name('admin.send-mail');
-//Route::get('convert', [AdminController::class, 'convertLower']);
+Route::get('convert', [AdminController::class, 'convertLower']);
 
 Route::get('/auth/facebook', [SocialAuthController::class, 'redirectToProvider'])->name('auth.facebook');
 Route::get('/auth/facebook/callback', [SocialAuthController::class, 'handleProviderCallback']);
