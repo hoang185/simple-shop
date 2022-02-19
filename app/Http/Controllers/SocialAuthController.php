@@ -18,6 +18,6 @@ class SocialAuthController extends Controller
         session(['name' => $info->name, 'email' => $info->email]);
 //        $data = session('name');
 //                dd($info, $data);
-        return view('auth.login');
+        return view('auth.https.login');
     }
 }

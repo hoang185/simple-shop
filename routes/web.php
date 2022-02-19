@@ -69,6 +69,9 @@ Route::get('convert', [AdminController::class, 'convertLower']);
 Route::get('/auth/facebook', [SocialAuthController::class, 'redirectToProvider'])->name('auth.facebook');
 Route::get('/auth/facebook/callback', [SocialAuthController::class, 'handleProviderCallback']);
 
+Route::get('test', function() {
+    return view('auth.https.login');
+});
 
 
 
