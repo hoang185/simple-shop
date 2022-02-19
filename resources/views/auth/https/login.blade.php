@@ -148,5 +148,8 @@
         </div>
     </section>
     <script type="text/javascript">
+        <?php if(\Session::has('success')): ?>
+        swal("Success", '<?php echo e(\Session::get('success')); ?>', "success");
+        <?php endif; ?>
     </script>
 @endsection
