@@ -165,11 +165,17 @@ class AdminController extends Controller
         $item_price['total'] = $total;
         $item_price['name'] = $data['name'];
 //        dd($item_price->total);
-        if($orders && $order_detail) {
-            Mail::to($data['email'])->send(new SuccessfulOrderNotification($content ,$item_price));
+        try {
+            if($orders && $order_detail) {
+                Mail::to($data['email'])->send(new SuccessfulOrderNotification($content ,$item_price));
+            }
+
+            Cart::destroy();
+        }
+        catch (\Exception $e) {
+            return $e->getMessage();
         }
 
-        Cart::destroy();
         // dd($order_code);
 
         return redirect()->route('home')->with('success', 'Bạn đã thanh toán đơn hàng thành công');

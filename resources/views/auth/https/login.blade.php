@@ -134,6 +134,8 @@
                                 </div>
                                 @if(!empty($user))
                                     <button type="submit" name="sbm" class="sbm">Chính sửa thông tin</button>
+                                @else
+                                    <button disabled style="opacity: 0.5" name="sbm" class="sbm">Chính sửa thông tin</button>
                                 @endif
                             </form>
                         </div>
