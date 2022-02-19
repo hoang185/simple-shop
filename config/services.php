@@ -32,7 +32,7 @@ return [
     'facebook' => [
         'client_id' => '428642048813431',
         'client_secret' => '3fbd138aa7712ffd6c0ce402b2b4d414',
-        'redirect' => 'https://d568-42-113-121-50.ngrok.io/auth/facebook/callback',
+        'redirect' => 'https://simple-shop-185.herokuapp.com/auth/facebook/callback',
     ],
 
 ];
