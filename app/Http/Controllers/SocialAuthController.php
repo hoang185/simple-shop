@@ -18,6 +18,6 @@ class SocialAuthController extends Controller
         session(['name' => $info->name, 'email' => $info->email]);
 //        $data = session('name');
 //                dd($info, $data);
-        return view('auth.httpsFD.login')->with('success', 'Bạn đã đăng nhập thành công');
+        return view('auth.https.login')->with('success', 'Bạn đã đăng nhập thành công');
     }
 }
