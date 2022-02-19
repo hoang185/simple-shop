@@ -17,7 +17,7 @@ class SocialAuthController extends Controller
     {
         $social = $request->social;
         $info = Socialite::driver($social)->user();
-        dd($info);
+//        dd($info);
         session(['name' => $info->name, 'email' => $info->email]);
 //        $data = session('name');
 //                dd($info, $data);

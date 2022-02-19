@@ -86,7 +86,7 @@
 
                         </div>
                         <div class="modal-socialogin modal-google google-connect">
-                            <a style="text-decoration: none; color: #fff" href="{{ route('auth.social', ['social' => 'google']) }}">
+                            <a style="text-decoration: none; color: #000" href="{{ route('auth.social', ['social' => 'google']) }}">
                                 <span>đăng nhập bằng google</span>
                             </a>
                         </div>
