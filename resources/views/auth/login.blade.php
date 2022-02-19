@@ -14,15 +14,7 @@
             <div class="row login-container">
                 <div class="login-form">
                     <div class="noti-success">
-                        @if (\Session::has('success'))
-                            <div class="alert alert-success">
-                                <p>{{ \Session::get('success') }}</p>
-                            </div>
-                        @elseif(\Session::has('error'))
-                            <div class="alert alert-danger">
-                                <p>{{ \Session::get('error') }}</p>
-                            </div>
-                        @endif
+
                     </div>
 
                     <div class="block">
@@ -88,13 +80,15 @@
                             <span>đăng nhập bằng phương thức khác</span>
                         </div>
                         <div class="modal-socialogin modal-facebook facebook-connect">
-                            <a style="text-decoration: none; color: #fff" href="{{ URL::to('auth/facebook') }}">
+                            <a style="text-decoration: none; color: #fff" href="{{ route('auth.social', ['social' => 'facebook']) }}">
                                 <span>đăng nhập bằng facebook</span>
                             </a>
 
                         </div>
                         <div class="modal-socialogin modal-google google-connect">
-                            <span>đăng nhập bằng google</span>
+                            <a style="text-decoration: none; color: #fff" href="{{ route('auth.social', ['social' => 'google']) }}">
+                                <span>đăng nhập bằng google</span>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -104,15 +98,7 @@
                 <div class="row account-user">
                     <div class="col-lg-5">
                         <div class="noti-success">
-                            @if (\Session::has('success'))
-                                <div class="alert alert-success">
-                                    <p>{{ \Session::get('success') }}</p>
-                                </div>
-                            @elseif(\Session::has('error'))
-                                <div class="alert alert-danger">
-                                    <p>{{ \Session::get('error') }}</p>
-                                </div>
-                            @endif
+
                         </div>
                         <div class="block-title">
                             <h5>Thông tin tài khoản</h5>
@@ -134,6 +120,8 @@
                                 </div>
                                 @if(!empty($user))
                                     <button type="submit" name="sbm" class="sbm">Chính sửa thông tin</button>
+                                @else
+                                    <button disabled style="opacity: 0.5" name="sbm" class="sbm">Chính sửa thông tin</button>
                                 @endif
                             </form>
                         </div>
@@ -148,5 +136,10 @@
     </div>
 </section>
     <script type="text/javascript">
+        <?php if(\Session::has('success')): ?>
+        swal("Success", '<?php echo e(\Session::get('success')); ?>', "success");
+        <?php elseif(\Session::has('error')): ?>
+        swal("Error", '<?php echo e(\Session::get('error')); ?>', "error");
+        <?php endif; ?>
     </script>
 @endsection

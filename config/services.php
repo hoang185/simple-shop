@@ -34,5 +34,10 @@ return [
         'client_secret' => '3fbd138aa7712ffd6c0ce402b2b4d414',
         'redirect' => 'https://simple-shop-185.herokuapp.com/auth/facebook/callback',
     ],
+    'google' => [
+        'client_id' => '688268960109-dv8vha59objah8rpgi4qq4pdrmrc3oat.apps.googleusercontent.com',
+        'client_secret' => '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',
+        'redirect' => 'https://simple-shop-185.herokuapp.com/auth/google/callback',
+    ],
 
 ];

@@ -7,14 +7,17 @@ use Socialite;
 
 class SocialAuthController extends Controller
 {
-    public function redirectToProvider()
+    public function redirectToProvider(Request $request)
     {
-        return Socialite::driver('facebook')->redirect();
+        $social = $request->social;
+        return Socialite::driver($social)->redirect();
     }
 
-    public function handleProviderCallback()
+    public function handleProviderCallback(Request $request)
     {
-        $info = Socialite::driver('facebook')->user();
+        $social = $request->social;
+        $info = Socialite::driver($social)->user();
+        dd($info);
         session(['name' => $info->name, 'email' => $info->email]);
 //        $data = session('name');
 //                dd($info, $data);

@@ -31,7 +31,7 @@ Route::get('forget-password', function() {
 Route::get('logout', function() {
     Auth::logout();
     Session::flush();
-    return redirect()->route('home');
+    return redirect()->route('home')->with('success', 'Bạn đã đăng xuất thành công');
 })->name('logout');
 Route::post('update/{id}', [LoginController::class, 'updateAccount'])->name('user.update');
 Route::get('login/create', [LoginController::class, 'createAccount'])->name('login.create');
@@ -66,8 +66,8 @@ Route::get('send-mail', function() {
 Route::post('send-mail', [AdminController::class, 'sendMail'])->name('admin.send-mail');
 Route::get('convert', [AdminController::class, 'convertLower']);
 
-Route::get('/auth/facebook', [SocialAuthController::class, 'redirectToProvider'])->name('auth.facebook');
-Route::get('/auth/facebook/callback', [SocialAuthController::class, 'handleProviderCallback']);
+Route::get('/auth/{social}', [SocialAuthController::class, 'redirectToProvider'])->name('auth.social');
+Route::get('/auth/{social}/callback', [SocialAuthController::class, 'handleProviderCallback']);
 
 Route::get('test', function() {
     return view('auth.https.login');
