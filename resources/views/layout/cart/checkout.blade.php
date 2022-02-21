@@ -148,7 +148,7 @@
                                                 </th>
                                                 <td class="amount">
                                                     <strong>
-                                                        <span class="price">{{ ($total>0) ?number_format($total+intval($item_price->ship_price),0,',','.'):0 }}&nbsp;đ</span>
+                                                        <span class="price price-total" data-value="{{ ($total>0) ?($total+intval($item_price->ship_price)):0 }}">{{ ($total>0) ?number_format($total+intval($item_price->ship_price),0,',','.'):0 }}&nbsp;đ</span>
                                                     </strong>
                                                 </td>
                                             </tr>
@@ -160,7 +160,7 @@
                                     <ul class="checkout-method-items">
                                         <li class="item">
                                             <button class="primary checkout checkout-button">
-                                                <span>đặt hàng</span>
+                                                <span>Thanh toán</span>
                                             </button>
                                         </li>
                                         <li>
@@ -176,15 +176,57 @@
                 </div>
             </div>
         </div>
+
+        <div class="modal fade" id="payment-method">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header" style="border: none">
+                        <h4 class="modal-title">Phương thức thanh toán</h4>
+                        <button type="button" class="close" data-dismiss="modal" style="margin-right: 0px">&times;</button>
+                    </div>
+                    <div class="modal-body" style="border: none">
+                        <div class="payment-list">
+                            <div class="payment-method">
+                                <input class="payment-cod method" type="radio" data-value="1" name="payment-cod">
+                                <label class="label">
+                                    Thanh toán khi nhận hàng
+                                </label>
+                            </div>
+                            <div class="payment-method">
+                                <input class="payment-onepay method" type="radio" data-value="2" name="payment-onepay">
+                                <label class="label">
+                                    Thanh toán bằng ONEPAY
+                                </label>
+                            </div>
+                        </div>
+                        <div class="row" style="justify-content: center; margin:20px 0 10px 0">
+                            <button name="next" id="btn-next" type="button" class="btn btn-popup-actions"
+                                    style="background-color: #231f20;outline:none;text-transform: uppercase;border-radius: 0; color: #fff">Đặt Hàng</button>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
     </section>
     <script>
         $(document).ready(function() {
-
+            // $('#payment-method').modal();
+            $('.payment-cod').prop('checked', true);
+            $('.payment-onepay').click(function() {
+                $('.payment-onepay').prop('checked', true);
+                $('.payment-cod').prop('checked', false);
+            });
+            $('.payment-cod').click(function() {
+                $('.payment-onepay').prop('checked', false);
+                $('.payment-cod').prop('checked', true);
+            });
 
 
             $("#form-checkout").validate({
-                onfocusout: false,
-                onkeyup: false,
+                onfocusout: true,
+                onkeyup: true,
                 onclick: false,
                 rules: {
                     "name": {
@@ -213,8 +255,21 @@
 
             });
             $('.checkout-button').click( function(e) {
+                e.preventDefault();
                 if($("#form-checkout").valid()) {
-                    $('#form-checkout').submit()
+                    $('#payment-method').modal();
+
+                    $('#btn-next').click(function(e) {
+                        var checked_method = $('.method:checked').attr('data-value');
+
+                        var price_total = $('.price-total').attr('data-value');
+                        // console.log(checked_method, 'checked method')
+                        $('.fieldset').append('<div class="field _required"><label class="label"> <span>ĐỊA CHỈ GIAO HÀNG</span></label> <div class="control"> <input name="payment-method" class="input-text" type="text" value="'+checked_method+'"></div></div><div class="field _required"><label class="label"> <span>ĐỊA CHỈ GIAO HÀNG</span></label> <div class="control"> <input name="price-total" class="input-text" type="text" value="'+price_total+'"></div></div>');
+                        // console.log($('#form-checkout'));
+                        $('#form-checkout').submit();
+
+                    });
+
                 }
             });
 

@@ -20,7 +20,9 @@
 
         $(document).ready(function() {
             <?php if(\Session::has('success')): ?>
-                swal("Success", '<?php echo e(\Session::get('success')); ?>', "success");
+            swal("Success", '<?php echo e(\Session::get('success')); ?>', "success");
+            <?php elseif(\Session::has('error')): ?>
+            swal("Error", '<?php echo e(\Session::get('error')); ?>', "error");
             <?php endif; ?>
         })
     </script>

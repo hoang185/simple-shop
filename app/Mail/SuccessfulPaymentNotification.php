@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class SuccessfulOrderNotification extends Mailable
+class SuccessfulPaymentNotification extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -33,7 +33,7 @@ class SuccessfulOrderNotification extends Mailable
     {
         $content = $this->content;
         $item_price = $this->item_price;
-        $status = 0;
-        return $this->from('vuhuyhoang185@gmail.com')->subject(SUCCESS_ORDER_NOTI)->view('mail.order', compact('content', 'item_price', 'status'));
+        $status = 1;
+        return $this->from('vuhuyhoang185@gmail.com')->subject(SUCCESS_PAYMENT_NOTI)->view('mail.order', compact('content', 'item_price', 'status'));
     }
 }

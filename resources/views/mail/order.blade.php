@@ -317,8 +317,17 @@
                         <tr>
                             <td style="padding: 0 2.5em; text-align: left;">
                                 <div class="text">
-                                    <h2>Đơn hàng thanh toán thành công</h2>
-                                    <h3>Xin chào {{ $item_price->name }}, đơn hàng của bạn đã được thanh toán thành công. Cám ơn bạn đã mua hàng.</h3>
+
+                                    @if($status == 1)
+                                        <h2>Đơn hàng thanh toán thành công</h2>
+                                        <h3>Xin chào {{ $item_price->name }}, đơn hàng của bạn đã được thanh toán thành
+                                            công. Cám ơn bạn đã mua hàng.</h3>
+                                    @else
+                                        <h2>Đơn hàng đã đặt thành công</h2>
+                                        <h3>Xin chào {{ $item_price->name }}, đơn hàng của bạn đã đặt thành
+                                            công. Cám ơn bạn đã mua hàng.</h3>
+                                    @endif
+
                                 </div>
                             </td>
                         </tr>

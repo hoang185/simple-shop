@@ -49,6 +49,8 @@ Route::get('p/{product}', [AdminController::class, 'productDetail'])->name('prod
 //cart
 Route::get('checkout/cart', [AdminController::class, 'checkoutCart'])->name('cart.checkout');
 Route::get('checkout/pay', [AdminController::class, 'checkoutPay'])->name('pay.checkout');
+Route::get('home/callback/onepay', [AdminController::class, 'createTransaction'])->name('payment.onepay');
+
 Route::post('checkout/pay/insert', [AdminController::class, 'insertOrder'])->name('checkout.info');
 Route::post('search', [AdminController::class, 'search'])->name('product.search');
 Route::post('cart/add', [CartController::class, 'addCart'])->name('cart.add');
@@ -70,7 +72,7 @@ Route::get('/auth/{social}', [SocialAuthController::class, 'redirectToProvider']
 Route::get('/auth/{social}/callback', [SocialAuthController::class, 'handleProviderCallback']);
 
 Route::get('test', function() {
-    return view('auth.https.login');
+    return view('layout.cart.pay-method');
 });
 
 

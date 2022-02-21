@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\SaleoffNotification;
+use App\Mail\SuccessfulPaymentNotification;
 use App\Models\Admin;
 use App\Models\Category;
 use App\Models\Sale;
@@ -22,6 +23,7 @@ use App\Mail\SuccessfulOrderNotification;
 use Mail;
 use App\Models\EmailTemplate;
 use Illuminate\Support\Facades\Hash;
+
 
 
 class AdminController extends Controller
@@ -116,71 +118,306 @@ class AdminController extends Controller
 
     public function insertOrder(Request $request)
     {
-
         $data = $request->all();
         $now = Carbon::now();
         $date = Carbon::parse($now)->format('Y-m-d');
         $mail_check = !empty($request->has('mail-check')) ? 1 : 0;
         $order_code = Carbon::parse($now)->format('dmYHis');
         $order_code .= $data['phone'];
-        // dd($order_code);
+
         $total_bill = str_replace(',', '', Cart::total());
 
-        try {
-            $orders = Order::insert([
-                'order_code' => $order_code,
-                'customer_name' => $data['name'],
-                'phone' => $data['phone'],
-                'total_bill' => $total_bill,
-                'date' => $date,
-                'email' => $data['email'],
-                'city' => $data['city'],
-                'district' => $data['district'],
-                'village' => $data['village'],
-                'address' => $data['address'],
-                'send_mail' => $mail_check,
-                'detail' => $data['detail'],
-            ]);
-        } catch (\Exception $e) {
-            return response()->json(['status' => 'error', 'message' => $e->getMessage()]);
-        }
-        try {
-            $order = Order::where('order_code', $order_code)->first();
-            $order_id = $order->id;
-            $content = Cart::content();
-            foreach ($content as $key => $item) {
-                $order_detail = OrderDetail::insert([
-                    'order_id' => $order_id,
-                    'product_name' => $item->name,
-                    'quantity' => $item->qty,
-                ]);
-            }
-        } catch (\Exception $e) {
-            return $e->getMessage();
-        }
 
         $item_price = Sale::first();
         $total = str_replace(',', '', Cart::total());
         $total = intval($total);
         $item_price['total'] = $total;
         $item_price['name'] = $data['name'];
-//        dd($item_price->total);
-        try {
-            if($orders && $order_detail) {
-                Mail::to($data['email'])->send(new SuccessfulOrderNotification($content ,$item_price));
+        if( $data['payment-method'] == 2) {
+            session([
+                'order_code'    => $order_code,
+                'customer_name' => $data['name'],
+                'phone'         => $data['phone'],
+                'total_bill'    => $total_bill,
+                'date'          => $date,
+                'customer_email' => $data['email'],
+                'city'          => $data['city'],
+                'district'      => $data['district'],
+                'village'       => $data['village'],
+                'address'       => $data['address'],
+                'send_mail'     => $mail_check,
+                'detail'        => $data['detail'],
+            ]);
+            //dd($data);
+            // Khóa bí mật - được cấp bởi OnePAY
+            $SECURE_SECRET = SECURE_HASH;
+            // *****************************Lấy giá trị url cổng thanh toán*****************************
+            $vpcURL = "https://mtf.onepay.vn/onecomm-pay/vpc.op" . "?";
+
+            // bỏ giá trị url và nút submit ra khỏi mảng dữ liệu
+            //        unset($_POST["virtualPaymentClientURL"]);
+            //        unset($_POST["SubButL"]);
+
+            $vpc_Merchant     = "ONEPAY";
+            $vpc_AccessCode   = "D67342C2";
+            $vpc_MerchTxnRef  = time();
+            $vpc_OrderInfo    = "JSECURETEST01";
+            $vpc_Amount       = $data['price-total'] * 100;
+            $vpc_ReturnURL    = route('payment.onepay');
+            $vpc_Version      = "2";
+            $vpc_Command      = "pay";
+            $vpc_Locale       = "vn";
+            $vpc_Currency     = "VND";
+
+            $data = array(
+                "vpc_Merchant"    => $vpc_Merchant,
+                "vpc_AccessCode"  => $vpc_AccessCode,
+                "vpc_MerchTxnRef" => $vpc_MerchTxnRef,
+                "vpc_OrderInfo"   => $vpc_OrderInfo,
+                "vpc_Amount"      => $vpc_Amount,
+                "vpc_ReturnURL"   => $vpc_ReturnURL,
+                "vpc_Version"     => $vpc_Version,
+                "vpc_Command"     => $vpc_Command,
+                "vpc_Locale"      => $vpc_Locale,
+                "vpc_Currency"    => $vpc_Currency,
+            );
+            //$stringHashData = $SECURE_SECRET; *****************************Khởi tạo chuỗi dữ liệu mã hóa trống*****************************
+            $stringHashData = "";
+            // sắp xếp dữ liệu theo thứ tự a-z trước khi nối lại
+            // arrange array data a-z before make a hash
+            ksort($data);
+
+            // set a parameter to show the first pair in the URL
+            // đặt tham số đếm = 0
+            $appendAmp = 0;
+
+            foreach ($data as $key => $value) {
+
+                // create the md5 input and URL leaving out any fields that have no value
+                // tạo chuỗi đầu dữ liệu những tham số có dữ liệu
+                if (strlen($value) > 0) {
+                    // this ensures the first paramter of the URL is preceded by the '?' char
+                    if ($appendAmp == 0) {
+                        $vpcURL .= urlencode($key) . '=' . urlencode($value);
+                        $appendAmp = 1;
+                    } else {
+                        $vpcURL .= '&' . urlencode($key) . "=" . urlencode($value);
+                    }
+                    //$stringHashData .= $value; *****************************sử dụng cả tên và giá trị tham số để mã hóa*****************************
+                    if ((strlen($value) > 0) && ((substr($key, 0, 4) == "vpc_") || (substr($key, 0, 5) == "user_"))) {
+                        $stringHashData .= $key . "=" . $value . "&";
+                    }
+                }
+            }
+            //*****************************xóa ký tự & ở thừa ở cuối chuỗi dữ liệu mã hóa*****************************
+            $stringHashData = rtrim($stringHashData, "&");
+            // Create the secure hash and append it to the Virtual Payment Client Data if
+            // the merchant secret has been provided.
+            // thêm giá trị chuỗi mã hóa dữ liệu được tạo ra ở trên vào cuối url
+            if (strlen($SECURE_SECRET) > 0) {
+                //$vpcURL .= "&vpc_SecureHash=" . strtoupper(md5($stringHashData));
+                // *****************************Thay hàm mã hóa dữ liệu*****************************
+                $vpcURL .= "&vpc_SecureHash=" . strtoupper(hash_hmac('SHA256', $stringHashData, pack('H*', $SECURE_SECRET)));
             }
 
-            Cart::destroy();
-        }
-        catch (\Exception $e) {
-            return $e->getMessage();
-        }
+            return redirect()->to($vpcURL);
+        } else {
+            try {
+                $orders = Order::insert([
+                    'order_code'    => $order_code,
+                    'customer_name' => $data['name'],
+                    'phone'         => $data['phone'],
+                    'total_bill'    => $total_bill,
+                    'date'          => $date,
+                    'email'         => $data['email'],
+                    'city'          => $data['city'],
+                    'district'      => $data['district'],
+                    'village'       => $data['village'],
+                    'address'       => $data['address'],
+                    'send_mail'     => $mail_check,
+                    'detail'        => $data['detail'],
+                    'payment_method'        => COD,
+                    'payment_status'        =>  0,
+                ]);
+            } catch (\Exception $e) {
+                return response()->json(['status' => 'error', 'message' => $e->getMessage()]);
+            }
+            try {
+                $order = Order::where('order_code', $order_code)->first();
+                $order_id = $order->id;
+                $content = Cart::content();
+                foreach ($content as $key => $item) {
+                    $order_detail = OrderDetail::insert([
+                        'order_id' => $order_id,
+                        'product_name' => $item->name,
+                        'quantity' => $item->qty,
+                    ]);
+                }
+            } catch (\Exception $e) {
+                return $e->getMessage();
+            }
+            try {
+                if ($orders && $order_detail) {
+                    Mail::to($data['email'])->send(new SuccessfulOrderNotification($content, $item_price));
+                }
 
-        // dd($order_code);
+                Cart::destroy();
+            } catch (\Exception $e) {
+                return $e->getMessage();
+            }
 
-        return redirect()->route('home')->with('success', 'Bạn đã thanh toán đơn hàng thành công');
+            return redirect()->route('home')->with('success', 'Bạn đã đặt hàng thành công');
+        }
 
     }
+
+    public function createTransaction(Request $request) {
+        $data = $request->all();
+//        dd($data);
+        $SECURE_SECRET = SECURE_HASH;//93E963BC17BF022F2A03B685784D0CFA
+
+        $vpc_Txn_Secure_Hash = $data["vpc_SecureHash"];
+//        unset ( $data["vpc_SecureHash"] );
+
+// set a flag to indicate if hash has been validated
+        $errorExists = false;
+
+        if (strlen ( $SECURE_SECRET ) > 0 && $data["vpc_TxnResponseCode"] != "7" && $data["vpc_TxnResponseCode"] != "No Value Returned") {
+            ksort($_REQUEST);
+            //$stringHashData = $SECURE_SECRET;
+            //*****************************khởi tạo chuỗi mã hóa rỗng*****************************
+            $stringHashData = "";
+
+            // sort all the incoming vpc response fields and leave out any with no value
+            foreach ( $data as $key => $value ) {
+//        if ($key != "vpc_SecureHash" or strlen($value) > 0) {
+//            $stringHashData .= $value;
+//        }
+//      *****************************chỉ lấy các tham số bắt đầu bằng "vpc_" hoặc "user_" và khác trống và không phải chuỗi hash code trả về*****************************
+                if ($key != "vpc_SecureHash" && (strlen($value) > 0) && ((substr($key, 0,4)=="vpc_") || (substr($key,0,5) =="user_"))) {
+                    $stringHashData .= $key . "=" . $value . "&";
+                }
+            }
+//  *****************************Xóa dấu & thừa cuối chuỗi dữ liệu*****************************
+            $stringHashData = rtrim($stringHashData, "&");
+
+
+//    if (strtoupper ( $vpc_Txn_Secure_Hash ) == strtoupper ( md5 ( $stringHashData ) )) {
+//    *****************************Thay hàm tạo chuỗi mã hóa*****************************
+            if (strtoupper ( $vpc_Txn_Secure_Hash ) == strtoupper(hash_hmac('SHA256', $stringHashData, pack('H*',$SECURE_SECRET)))) {
+                // Secure Hash validation succeeded, add a data field to be displayed
+                // later.
+                $hashValidated = "CORRECT";
+            } else {
+                // Secure Hash validation failed, add a data field to be displayed
+                // later.
+                $hashValidated = "INVALID HASH";
+            }
+        } else {
+            // Secure Hash was not validated, add a data field to be displayed later.
+            $hashValidated = "INVALID HASH";
+        }
+
+// Define Variables
+// ----------------
+// Extract the available receipt fields from the VPC Response
+// If not present then let the value be equal to 'No Value Returned'
+// Standard Receipt Data
+        $amount = null2unknown( $data["vpc_Amount"] );
+        $locale = null2unknown( $data["vpc_Locale"] );
+//$batchNo = null2unknown ( $data["vpc_BatchNo"] );
+        $command = null2unknown( $data["vpc_Command"] );
+//$message = null2unknown ( $data["vpc_Message"] );
+        $version = null2unknown( $data["vpc_Version"] );
+//$cardType = null2unknown ( $data["vpc_Card"] );
+        $orderInfo = null2unknown( $data["vpc_OrderInfo"] );
+//$receiptNo = null2unknown ( $data["vpc_ReceiptNo"] );
+        $merchantID = null2unknown( $data["vpc_Merchant"] );
+//$authorizeID = null2unknown ( $data["vpc_AuthorizeId"] );
+        $merchTxnRef = null2unknown( $data["vpc_MerchTxnRef"] );
+        $transactionNo = null2unknown( $data["vpc_TransactionNo"] );
+//$acqResponseCode = null2unknown ( $data["vpc_AcqResponseCode"] );
+        $txnResponseCode = null2unknown( $data["vpc_TxnResponseCode"] );
+
+// This is the display title for 'Receipt' page
+//$title = $data["Title"];
+
+
+// This method uses the QSI Response code retrieved from the Digital
+// Receipt and returns an appropriate description for the QSI Response Code
+//
+// @param $responseCode String containing the QSI Response Code
+//
+// @return String containing the appropriate description
+//
+//////////////////////// CONFIRM /////////////////////
+        if($hashValidated=="CORRECT"){
+            echo "responsecode=1&desc=confirm-success";
+        }
+        else echo "responsecode=0&desc=confirm-fail";
+
+        $transStatus = "";
+        if($hashValidated=="CORRECT" && $txnResponseCode=="0"){
+            try {
+                $orders = Order::insert([
+                    'order_code'    => session('order_code'),
+                    'customer_name' => session('customer_name'),
+                    'phone'         => session('phone'),
+                    'total_bill'    => session('total_bill'),
+                    'date'          => session('date'),
+                    'email'         => session('customer_email'),
+                    'city'          => session('city'),
+                    'district'      => session('district'),
+                    'village'       => session('village'),
+                    'address'       => session('address'),
+                    'send_mail'     => session('send_mail'),
+                    'detail'        => session('detail'),
+                    'payment_method'        => ONEPAY,
+                    'payment_status'        =>  1,
+                ]);
+            } catch (\Exception $e) {
+                return response()->json(['status' => 'error', 'message' => $e->getMessage()]);
+            }
+            try {
+                $order_code = session('order_code');
+                $order = Order::where('order_code', $order_code)->first();
+                $order_id = $order->id;
+                $content = Cart::content();
+                foreach ($content as $key => $item) {
+                    $order_detail = OrderDetail::insert([
+                        'order_id' => $order_id,
+                        'product_name' => $item->name,
+                        'quantity' => $item->qty,
+                    ]);
+                }
+            } catch (\Exception $e) {
+                return $e->getMessage();
+            }
+            try {
+                $item_price = Sale::first();
+                $total = str_replace(',', '', Cart::total());
+                $total = intval($total);
+                $item_price['total'] = $total;
+                $item_price['name'] = session('customer_name');
+                if ($orders && $order_detail) {
+                    Mail::to(session('customer_email'))->send(new SuccessfulPaymentNotification($content, $item_price));
+                }
+
+                Cart::destroy();
+            } catch (\Exception $e) {
+                return $e->getMessage();
+            }
+            $transStatus = "Giao dịch thành công";
+            return redirect()->route('home')->with('success', 'Bạn đã thanh toán đơn hàng thành công');
+        }elseif ($txnResponseCode!="0"){
+            $transStatus = "Giao dịch thất bại";
+            return redirect()->route('home')->with('error', $transStatus);
+        }elseif ($hashValidated=="INVALID HASH"){
+            $transStatus = "Giao dịch Pendding";
+            return redirect()->route('home')->with('error', $transStatus);
+        }
+    }
+
     public function test() {
         return view('mail.order');
     }
