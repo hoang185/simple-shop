@@ -28,7 +28,7 @@ class ForHerController extends Controller
             $products = $products->orderBy('updated_at', 'desc');
         }
         $products = $products->paginate(8);
-        $categories = Category::where('cat_name', 'LIKE', 'nu')->get();
+        $categories = Category::where('cat_name', 'LIKE', 'nữ')->get();
         $slug = FOR_HER;
         $page_title = "Simple - For Her";
         $id = 0;

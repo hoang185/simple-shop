@@ -128,7 +128,8 @@
         <div class="cart-nav-content" data-action="scroll">
             <div class="cart-top">
                 <i class="ti-bag" style="font-size: 28px;"></i>
-                <div class="dot"><span class="qty-cart">22</span></div>
+                @php $count = !empty(\Cart::content()->count()) ? \Cart::content()->count() : 0 @endphp
+                <div class="dot"><span class="qty-cart">{{ $count }}</span></div>
                 <span class="cart-close">Đóng</span>
             </div>
             <div class="block-content">
@@ -299,25 +300,22 @@
                         if (data.success) {
                             $('#mini-cart').append(data.html);
                             let leng_item_cart = $('.item').not('.off-item').length;
-                            console.log('out of cart', leng_item_cart, 2)
-                            if(leng_item_cart !== 0) {
+                            // console.log('out of cart', leng_item_cart, 2)
+                            if (leng_item_cart !== 0) {
                                 // console.log('out of cart')
-                                if($('#mini-cart .empty-cart')) {
+                                if ($('#mini-cart .empty-cart')) {
                                     $('#mini-cart .empty-cart').css('display', 'none');
                                 }
                             }
                             $('#cart_qty').text(data.cart_qty);
                             // if(location.reload()) {
-                                $('.cart-nav').css('right', '0%');
-
-                            // }
-                            // var leng_item_cart = $('.item').length;
+                            $('.cart-nav').css('right', '0%');
 
                             // delete cart function
-                            console.log(leng_item_cart, 'delete cảt before click');
+                            // console.log(leng_item_cart, 'delete cảt before click');
                             for( let i = 0; i < leng_item_cart; i++) {
                                 $('.item:eq('+i+') .ti-close').click(function(e) {
-                                    console.log($('.item:eq('+i+')').attr('data-value'), 'delete cảt after click');
+                                    // console.log($('.item:eq('+i+')').attr('data-value'), 'delete cảt after click');
                                     e.preventDefault();
                                     swal({
                                         title: false,

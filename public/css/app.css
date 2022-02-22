@@ -501,17 +501,19 @@
 }
 
 @media (max-width: 768px) {
-  .nav_right {
+  #categories {
+    padding: 2.5% 5% 0 5%;
+  }
+  #categories .nav_right {
     display: none;
   }
-
-  #categories .categories-title {
+  #categories #categories .categories-title {
     display: none;
   }
-  #categories .show {
+  #categories #categories .show {
     display: block;
   }
-  #categories .categories-list {
+  #categories #categories .categories-list {
     display: none;
     position: absolute;
     top: 18%;
@@ -525,11 +527,11 @@
     padding: 15px 15px 8px;
     border-bottom: thin solid #f1f1f1;
   }
-  #categories .categories-filter .toolbar-sorter {
+  #categories #categories .categories-filter .toolbar-sorter {
     position: absolute;
     right: 5%;
   }
-  #categories .categories-filter .filter-list {
+  #categories #categories .categories-filter .filter-list {
     display: block;
   }
 }
