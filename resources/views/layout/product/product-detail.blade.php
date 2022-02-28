@@ -285,6 +285,7 @@
                 var product_qty = $('#qty').val();
                 // console.log(product_color, product_size, product_qty, product_id,'hello')
 
+                // add cart function
                 $.ajax({
                     url: '{{ route('cart.add') }}',
                     type: 'post',

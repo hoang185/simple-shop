@@ -14,5 +14,13 @@ Route::group([
 
     $router->get('/', 'HomeController@index')->name('home');
     $router->resource('auth/category', CategoryController::class);
+    $router->resource('auth/product', ProductController::class);
+    $router->resource('auth/attribute', AttributeController::class);
+    $router->resource('auth/product-color', ProductColorController::class);
+    $router->resource('auth/email-template', EmailTemplateController::class);
+    $router->resource('auth/order', OrderController::class);
+    $router->resource('auth/order-detail', OrderDetailController::class);
+    $router->resource('auth/sale', SaleController::class);
+
 
 });
