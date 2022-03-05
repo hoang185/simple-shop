@@ -59,9 +59,9 @@ class ForHerController extends Controller
             $q->where('categoryvi', 'LIKE', $cat);
         });
         $title = FOR_HER;
-        $categories = Category::where('cat_name', 'LIKE', '%nu%')->get();
+        $categories = Category::where('cat_name', 'LIKE', 'nữ')->get();
         $products = $products->paginate(8);
-        $page_title = Category::where('cat_name', 'LIKE', '%nu%')->where('categoryvi', 'LIKE', $cat)->first();
+        $page_title = Category::where('cat_name', 'LIKE', 'nữ')->where('categoryvi', 'LIKE', $cat)->first();
         $slug = $page_title->category;
         $id = 0;
 //        dd($products, $page_title);

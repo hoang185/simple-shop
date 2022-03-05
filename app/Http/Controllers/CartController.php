@@ -35,9 +35,10 @@ class CartController extends Controller
         $content = Cart::content();
         $end_content = end($content);
         $product_cart = end($end_content);
+        $rowId = $product_cart->rowId;
         $cart_qty = Cart::content()->count();
         $html = view('layout.partial.product-cart', compact('product_cart' ))->render();
-        return response()->json(['html' => $html, 'success' => true, 'cart_qty' => $cart_qty]);
+        return response()->json(['html' => $html, 'success' => true, 'cart_qty' => $cart_qty, 'rowId' => $rowId]);
     }
     public function deleteCart(Request $request) {
         if( !empty($request->del_id)) {

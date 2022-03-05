@@ -23,20 +23,20 @@
         </div>
       </div>
       <div class="slider active-slider">
-        <div class=" for-her owl-carousel">
-            @foreach($new_hers as $item)
-
-            <div>
-            <div><a href="{{ route('product.detail', ['product' => $item->namevi]) }}"><span style="background-image:url({{ $item->image }})" alt=""></span></a></div>
-            <div class="detail">
-              <h6 class="name">{{ $item->name }}</h6>
-              <div class="price">
-                <p>{{ number_format($item->price) }}đ</p>
-              </div>
-            </div>
+          <div class="for-her owl-carousel">
+              @foreach($new_hers as $item)
+                  <div>
+                      <div><a href="{{ route('product.detail', ['product' => $item->namevi]) }}"><span
+                                  style="background-image:url({{ $item->image }})" alt=""></span></a></div>
+                      <div class="detail">
+                          <h6 class="name">{{ $item->name }}</h6>
+                          <div class="price">
+                              <p>{{ number_format($item->price) }}đ</p>
+                          </div>
+                      </div>
+                  </div>
+              @endforeach
           </div>
-            @endforeach
-        </div>
       </div>
     </div>
   </section>

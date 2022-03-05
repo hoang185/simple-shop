@@ -42,7 +42,7 @@ class AdminController extends Controller
         $weekly_hers = Product::where('product_new', 1)->whereHas('category', function ($q) {
             $q->where('cat_name', 'nữ');
         })->take(8)->get();
-        //        dd($new_hims, $new_hers);
+//                dd($new_hims, $new_hers, $weekly_hims, $weekly_hers);
         return view('home', compact('new_hims', 'new_hers', 'weekly_hims', 'weekly_hers'));
     }
     public function special(Request $request)
@@ -82,9 +82,9 @@ class AdminController extends Controller
 
     public function productDetail(Request $request)
     {
-        //        $content = Cart::content();
+                $content = Cart::content();
         //        Cart::update('03f854f9b6e5d4c8d5cb520ec699f711', 10);
-        //        dd($content);
+//                dd($content);
         $namevi = $request->product;
         $product = Product::where('namevi', $namevi)->first();
         $id = $product->id;
@@ -467,8 +467,8 @@ class AdminController extends Controller
             $products = Product::get();
             foreach ($products as $key => $product) {
                 //                dd($product);
-                $namevi = str_replace(' ', '-', strtolower($product->name));
-                $product->update(['namevi' => $namevi]);
+                $namevi = round(($product->price * 0.8), -3);
+                $product->update(['sale_price' => $namevi]);
             }
             return 'successfully';
         } catch (\Exception $e) {

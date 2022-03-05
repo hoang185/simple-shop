@@ -283,7 +283,6 @@
             $('#addtocart-button').click( function(e){
                 e.preventDefault();
                 var product_qty = $('#qty').val();
-                // console.log(product_color, product_size, product_qty, product_id,'hello')
 
                 // add cart function
                 $.ajax({
@@ -299,11 +298,17 @@
                     },
                     success:function (data) {
                         if (data.success) {
+                            var leng_item = $('.item').not('.off-item').length + 10;
+                            for( let i = 0; i < leng_item; i++) {
+                                if($('.item:eq('+i+')').not('.off-item').attr('data-value') === data.rowId) {
+                                    $('.item:eq('+i+')').not('.off-item').addClass('off-item');
+                                    $('.item:eq('+i+') .qty-input').removeAttr('id');
+                                    $('.item:eq('+i+')').removeClass('item');
+                                }
+                            }
                             $('#mini-cart').append(data.html);
                             let leng_item_cart = $('.item').not('.off-item').length;
-                            // console.log('out of cart', leng_item_cart, 2)
                             if (leng_item_cart !== 0) {
-                                // console.log('out of cart')
                                 if ($('#mini-cart .empty-cart')) {
                                     $('#mini-cart .empty-cart').css('display', 'none');
                                 }
@@ -340,7 +345,7 @@
                                                             // $('.item:eq('+i+')').css('display', 'none');
                                                             $('.item:eq('+i+')').addClass('off-item');
                                                             let leng_item_cart = $('.item').not('.off-item').length;
-                                                            console.log('out of cart', leng_item_cart, 2)
+                                                            // console.log('out of cart', leng_item_cart, 2)
                                                             if(leng_item_cart === 0) {
                                                                 // console.log('out of cart')
                                                                 $('#mini-cart').append('<li class="empty-cart" style="list-style: none"><div style="text-align: center"><h5>Giỏ hàng rỗng</h5></div></li>');
@@ -356,12 +361,12 @@
                             // update cart function
                             for( let i = 0; i < leng_item_cart; i++) {
                                 $('.item:eq(' + i + ') .update-cart-item').click(function (e) {
-                                    console.log($('.item:eq('+i+')').attr('data-value'), 'data value');
+                                    // console.log($('.item:eq('+i+')').attr('data-value'), 'data value');
                                     e.preventDefault();
                                     var update_id = $('.item:eq(' + i + ')').attr('data-value');
                                     // $('#qty').val()
                                     var update_qty = $('.item:eq(' + i + ') .qty-input').val();
-                                    console.log(update_id, update_qty, 'jskfdj')
+                                    // console.log(update_id, update_qty, 'jskfdj')
                                     $.ajax({
                                         url: '{{ route('cart.update') }}',
                                         type: 'post',

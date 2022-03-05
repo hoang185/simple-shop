@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 use Cart;
+use Illuminate\Support\Facades\URL;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,7 +26,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $count = !empty(Cart::content()->count()) ? Cart::content()->count() : 0;
-        View::share('count', $count);
+        URL::forceScheme('https');
     }
 }
